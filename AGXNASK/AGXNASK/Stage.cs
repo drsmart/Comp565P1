@@ -102,6 +102,8 @@ namespace AGXNASK
         // Screen display information variables
         protected double fpsSecond;
         protected int draws, updates;
+        Song song;
+        Texture2D bgTexture;
 
         public Stage() : base()
         {
@@ -349,6 +351,8 @@ namespace AGXNASK
         /// </summary>
         protected override void LoadContent()
         {
+            song = Content.Load<Song>("Third Awakening");
+            bgTexture = Content.Load<Texture2D>("nightbg");
             display = graphics.GraphicsDevice;
             effect = new BasicEffect(display);
             // Set up Inspector display
@@ -410,6 +414,7 @@ namespace AGXNASK
                new Vector3(0, 1, 0), 0.0f, "magentaAvatarV3");  // facing +Z
             Components.Add(npAgent);
             //marker = Content.Load<Model>("markerV3");
+            MediaPlayer.Play(song);
         }
 
         /// <summary>
@@ -516,6 +521,12 @@ namespace AGXNASK
             draws++;
             display.Viewport = defaultViewport; //sceneViewport;
             display.Clear(Color.CornflowerBlue);
+            spriteBatch.Begin();
+            int screenWidth = 1024;
+            int screenHeight = 768;
+            Rectangle screenRectangle = new Rectangle(0, 0, screenWidth, screenHeight);
+            spriteBatch.Draw(bgTexture, screenRectangle, Color.White);
+            spriteBatch.End();
             // Draw into inspectorViewport
             display.Viewport = inspectorViewport;
             spriteBatch.Begin();
