@@ -1,0 +1,9 @@
+*.csproj
+*bin/
+Properties/
+*.cachefile
+*.user
+*.sln
+*.ico
+*.contentproj
+obj/
