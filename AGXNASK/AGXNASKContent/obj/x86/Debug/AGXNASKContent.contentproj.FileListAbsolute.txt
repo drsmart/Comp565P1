@@ -1,2 +1,0 @@
-c:\users\drs90853\documents\visual studio 2010\Projects\AGXNASK\AGXNASK\AGXNASKContent\obj\x86\Debug\ResolveAssemblyReference.cache
-Z:\Comp565\Project1\AGXNASK\AGXNASK\AGXNASKContent\obj\x86\Debug\ResolveAssemblyReference.cache
