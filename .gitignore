@@ -1,4 +1,5 @@
 *.csproj
+*.suo
 *bin/
 Properties/
 *.cachefile
