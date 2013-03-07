@@ -47,7 +47,7 @@ namespace AGXNASK
     public class Scene : Stage
     {
         public Scene() { }
-
+        
         // Overridden Game class methods. 
 
         /// <summary>
@@ -72,29 +72,18 @@ namespace AGXNASK
             Components.Add(wall);
 
 
-            //place the treasure chests
-            Model3D t1 = new Model3D(this, "treasure1", "treasure_chest_closed");
-            t1.IsCollidable = true;  // must be set before addObject(...) and Model3D doesn't set it
-            t1.addObject(new Vector3(44470, terrain.surfaceHeight(44470,67760), 67760), new Vector3(0, 1, 0), 0.0f);
+            ////place the treasure chests
+          
             
-            Components.Add(t1);
 
 
-            Model3D t2 = new Model3D(this, "treasure2", "treasure_chest_closed");
-            t2.IsCollidable = true;  // must be set before addObject(...) and Model3D doesn't set it
-            t2.addObject(new Vector3(14400, terrain.surfaceHeight(14400,12900), 12900), new Vector3(0, 1, 0), 0.0f);
-            Components.Add(t2);
-
-
-            Model3D t3 = new Model3D(this, "treasure3", "treasure_chest_closed");
-            t3.IsCollidable = true;  // must be set before addObject(...) and Model3D doesn't set it
-            t3.addObject(new Vector3(47181, terrain.surfaceHeight(47181,55379), 55379), new Vector3(0, 1, 0), 0.0f);
-            Components.Add(t3);
-
-            Model3D t4 = new Model3D(this, "treasure4", "treasure_chest_closed");
-            t4.IsCollidable = true;  // must be set before addObject(...) and Model3D doesn't set it
-            t4.addObject(new Vector3(430 * spacing, terrain.surfaceHeight(430, 300), 300 * spacing), new Vector3(0, 1, 0), 0.0f);
-            Components.Add(t4);
+            //t2 = new Model3D(this, "treasure2", "treasure_chest");
+            //t2.IsCollidable = true;  // must be set before addObject(...) and Model3D doesn't set it
+            //t2.Visible = false;
+            //Components.Add(t2);
+            //t2.addObject(new Vector3(44470, terrain.surfaceHeight(44470, 67760), 67760), new Vector3(0, 1, 0), 0.0f);
+            //t2.addObject(new Vector3(430 * spacing, terrain.surfaceHeight(430, 300), 300 * spacing), new Vector3(0, 1, 0), 0.0f);
+            //t2.addObject(new Vector3(47181, terrain.surfaceHeight(47181, 55379), 55379), new Vector3(0, 1, 0), 0.0f);
 
 
 

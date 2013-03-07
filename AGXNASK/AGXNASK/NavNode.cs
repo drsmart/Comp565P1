@@ -110,6 +110,7 @@ namespace AGXNASK
         public Vector3 Translation
         {
             get { return translation; }
+            set { translation = value; }
         }
 
         // methods

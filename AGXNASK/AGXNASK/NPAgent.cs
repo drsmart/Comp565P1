@@ -49,6 +49,7 @@ namespace AGXNASK
         private Path path;
         private int snapDistance = 20;
         private int turnCount = 0;
+        private Boolean treasureHunting;
 
 
         /// <summary>
@@ -62,8 +63,7 @@ namespace AGXNASK
         /// <param name="radians"> initial rotation</param>
         /// <param name="meshFile"> Direct X *.x Model in Contents directory </param>
 
-        public NPAgent(Stage theStage, string label, Vector3 pos, Vector3 orientAxis, float radians, string meshFile)
-            : base(theStage, label, pos, orientAxis, radians, meshFile)
+        public NPAgent(Stage theStage, string label, Vector3 pos, Vector3 orientAxis, float radians, string meshFile) : base(theStage, label, pos, orientAxis, radians, meshFile)
         {  // change names for on-screen display of current camera
             first.Name = "npFirst";
             follow.Name = "npFollow";
@@ -129,10 +129,12 @@ namespace AGXNASK
                   agentObject.Forward.X, agentObject.Forward.Y, agentObject.Forward.Z));
             stage.setInfo(16,
                string.Format("nextGoal:  ({0:f0},{1:f0},{2:f0})", nextGoal.Translation.X, nextGoal.Translation.Y, nextGoal.Translation.Z));
+            
             // See if at or close to nextGoal, distance measured in the flat XZ plane
             float distance = Vector3.Distance(
                new Vector3(nextGoal.Translation.X, 0, nextGoal.Translation.Z),
                new Vector3(agentObject.Translation.X, 0, agentObject.Translation.Z));
+            
             if (distance <= snapDistance)
             {
                 stage.setInfo(17, string.Format("distance to goal = {0,5:f2}", distance));
@@ -149,5 +151,10 @@ namespace AGXNASK
             }
             base.Update(gameTime);  // Agent's Update();
         }
+
+        //private Treasure getNearest()
+        //{
+
+        //}
     }
 }

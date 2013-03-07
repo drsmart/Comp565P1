@@ -104,6 +104,7 @@ namespace AGXNASK
         protected int draws, updates;
         Song song;
         Texture2D bgTexture;
+        private List<Treasure> treasures = new List<Treasure>();
 
         public Stage() : base()
         {
@@ -415,6 +416,16 @@ namespace AGXNASK
             Components.Add(npAgent);
             //marker = Content.Load<Model>("markerV3");
             MediaPlayer.Play(song);
+
+            Treasure t1 = new Treasure(this, "treasure1", "treasure_chest_closed");
+            Components.Add(t1);
+            t1.IsCollidable = true;  // must be set before addObject(...) and Model3D doesn't set it
+            t1.addObject(new Vector3(44470, terrain.surfaceHeight(44470, 67760), 67760), new Vector3(0, 1, 0), 0.0f);
+            t1.Position = new Vector3(44470, terrain.surfaceHeight(44470, 67760), 67760);
+            treasures.Add(t1);
+
+            //t1.addObject(new Vector3(430 * spacing, terrain.surfaceHeight(430, 300), 300 * spacing), new Vector3(0, 1, 0), 0.0f);
+            //t1.addObject(new Vector3(47181, terrain.surfaceHeight(47181, 55379), 55379), new Vector3(0, 1, 0), 0.0f);
         }
 
         /// <summary>
@@ -506,6 +517,7 @@ namespace AGXNASK
                     YonFlag = !YonFlag;  // toggle Yon clipping value.
                 oldKeyboardState = keyboardState;    // Update saved state.
             }
+            checkTreasures();
             base.Update(gameTime);  // update all GameComponents and DrawableGameComponents
             currentCamera.updateViewMatrix();
         }
@@ -540,6 +552,17 @@ namespace AGXNASK
             display.Viewport = sceneViewport;
             display.RasterizerState = RasterizerState.CullNone;
             base.Draw(gameTime);  // draw all GameComponents and DrawableGameComponents
+        }
+
+        protected void checkTreasures()
+        {
+            foreach (Treasure t in treasures)
+            {
+                Vector3 pos = new Vector3(player.AgentObject.Translation.X,player.AgentObject.Translation.Y, player.AgentObject.Translation.Z);
+                float distance = Vector3.Distance(t.Position, pos);
+                if (distance <= 2000)
+                    t.Captured = true;
+            }
         }
 
     }

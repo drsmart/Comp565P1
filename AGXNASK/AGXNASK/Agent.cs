@@ -47,6 +47,7 @@ namespace AGXNASK
         protected Object3D agentObject = null;
         protected Camera agentCamera, first, follow, above;
         public enum CameraCase { FirstCamera, FollowCamera, AboveCamera }
+        public Vector3 Position;
 
 
         /// <summary>
@@ -65,6 +66,7 @@ namespace AGXNASK
            float radians, string meshFile)
             : base(stage, label, meshFile)
         {
+            Position = position;
             addObject(position, orientAxis, radians);
             agentObject = instance.First<Object3D>();
             first = new Camera(stage, agentObject, Camera.CameraEnum.FirstCamera);
