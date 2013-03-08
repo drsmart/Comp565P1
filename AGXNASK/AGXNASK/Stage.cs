@@ -418,13 +418,38 @@ namespace AGXNASK
             MediaPlayer.Play(song);
 
             Treasure t1 = new Treasure(this, "treasure1", "treasure_chest_closed");
+            Vector3 position = new Vector3(44470, terrain.surfaceHeight(44470, 67760), 67760);
+            
             Components.Add(t1);
             t1.IsCollidable = true;  // must be set before addObject(...) and Model3D doesn't set it
-            t1.addObject(new Vector3(44470, terrain.surfaceHeight(44470, 67760), 67760), new Vector3(0, 1, 0), 0.0f);
-            t1.Position = new Vector3(44470, terrain.surfaceHeight(44470, 67760), 67760);
+            t1.addObject(position, new Vector3(0, 1, 0), 0.0f);
+            t1.Position = position;
             treasures.Add(t1);
 
-            //t1.addObject(new Vector3(430 * spacing, terrain.surfaceHeight(430, 300), 300 * spacing), new Vector3(0, 1, 0), 0.0f);
+            t1 = new Treasure(this, "treasure2", "treasure_chest_closed");
+            position = new Vector3(430 * spacing, terrain.surfaceHeight(430, 300), 300 * spacing);
+            Components.Add(t1);
+            t1.IsCollidable = true;  // must be set before addObject(...) and Model3D doesn't set it
+            t1.addObject(position, new Vector3(0, 1, 0), 0.0f);
+            t1.Position = position;
+            treasures.Add(t1);
+
+            t1 = new Treasure(this, "treasure3", "treasure_chest_closed");
+            position = new Vector3(47181, terrain.surfaceHeight(47181, 55379), 55379);
+            Components.Add(t1);
+            t1.IsCollidable = true;  // must be set before addObject(...) and Model3D doesn't set it
+            t1.addObject(position, new Vector3(0, 1, 0), 0.0f);
+            t1.Position = position;
+            treasures.Add(t1);
+
+            t1 = new Treasure(this, "treasure3", "treasure_chest_closed");
+            position = new Vector3(14400, terrain.surfaceHeight(14400, 12900), 12900);
+            Components.Add(t1);
+            t1.IsCollidable = true;  // must be set before addObject(...) and Model3D doesn't set it
+            t1.addObject(position, new Vector3(0, 1, 0), 0.0f);
+            t1.Position = position;
+            treasures.Add(t1);
+            
             //t1.addObject(new Vector3(47181, terrain.surfaceHeight(47181, 55379), 55379), new Vector3(0, 1, 0), 0.0f);
         }
 
@@ -510,6 +535,11 @@ namespace AGXNASK
                 {
                     inspector.ShowMatrices = !inspector.ShowMatrices;
                     inspector.ShowHelp = false;
+                }
+                    //Treasure checking
+                else if (keyboardState.IsKeyDown(Keys.N) && !oldKeyboardState.IsKeyDown(Keys.N))
+                {
+                    npAgent.GoToTreasure(treasures);   
                 }
                 else if (keyboardState.IsKeyDown(Keys.T) && !oldKeyboardState.IsKeyDown(Keys.T))
                     FixedStepRendering = !FixedStepRendering;

@@ -10,7 +10,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace AGXNASK
 {
-    class Treasure : Model3D
+    public class Treasure : Model3D
     {
         private NavNode position;
         private Boolean captured;
@@ -19,6 +19,11 @@ namespace AGXNASK
         {
             get { return captured; }
             set { captured = value; }
+        }
+
+        public NavNode Pos
+        {
+            get { return position; } 
         }
 
         public Vector3 Position

@@ -46,6 +46,7 @@ namespace AGXNASK
     public class NPAgent : Agent
     {
         private NavNode nextGoal;
+        private NavNode previousGoal;
         private Path path;
         private int snapDistance = 20;
         private int turnCount = 0;
@@ -152,9 +153,29 @@ namespace AGXNASK
             base.Update(gameTime);  // Agent's Update();
         }
 
-        //private Treasure getNearest()
-        //{
+        public Treasure getNearest(List<Treasure> treasures)
+        {
+            Treasure nearest = null;
+            Vector3 position = new Vector3(AgentObject.Translation.X, AgentObject.Translation.Y, AgentObject.Translation.Z);
+            float minDistance = Vector3.Distance(position, treasures.First<Treasure>().Position); 
+           
+            foreach (Treasure t in treasures)
+            {
+                float distance = Vector3.Distance(position, t.Position);
+                if (distance < minDistance)
+                {
+                    minDistance = distance;
+                    nearest = t;
+                }
+            }
 
-        //}
+            return nearest;
+        }
+
+        public void GoToTreasure(List<Treasure> treasures)
+        {
+            previousGoal = nextGoal;
+            nextGoal = getNearest(treasures).Pos;
+        }
     }
 }
