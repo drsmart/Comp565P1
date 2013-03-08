@@ -71,22 +71,6 @@ namespace AGXNASK
             Wall wall = new Wall(this, "wall", "100x100x100Brick");
             Components.Add(wall);
 
-
-            ////place the treasure chests
-          
-            
-
-
-            //t2 = new Model3D(this, "treasure2", "treasure_chest");
-            //t2.IsCollidable = true;  // must be set before addObject(...) and Model3D doesn't set it
-            //t2.Visible = false;
-            //Components.Add(t2);
-            //t2.addObject(new Vector3(44470, terrain.surfaceHeight(44470, 67760), 67760), new Vector3(0, 1, 0), 0.0f);
-            //t2.addObject(new Vector3(430 * spacing, terrain.surfaceHeight(430, 300), 300 * spacing), new Vector3(0, 1, 0), 0.0f);
-            //t2.addObject(new Vector3(47181, terrain.surfaceHeight(47181, 55379), 55379), new Vector3(0, 1, 0), 0.0f);
-
-
-
             // create a Pack of dogs
             Pack pack = new Pack(this, "dog", "dogV3");
             Components.Add(pack);

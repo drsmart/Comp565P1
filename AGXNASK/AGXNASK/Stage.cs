@@ -418,7 +418,7 @@ namespace AGXNASK
             MediaPlayer.Play(song);
 
             Treasure t1 = new Treasure(this, "treasure1", "treasure_chest_closed");
-            Vector3 position = new Vector3(44470, terrain.surfaceHeight(44470, 67760), 67760);
+            Vector3 position = new Vector3(296 * spacing, terrain.surfaceHeight(296 * spacing, 451 * spacing), 451 * spacing);
             
             Components.Add(t1);
             t1.IsCollidable = true;  // must be set before addObject(...) and Model3D doesn't set it
@@ -435,17 +435,17 @@ namespace AGXNASK
             treasures.Add(t1);
 
             t1 = new Treasure(this, "treasure3", "treasure_chest_closed");
-            position = new Vector3(47181, terrain.surfaceHeight(47181, 55379), 55379);
+            position = new Vector3(314 * spacing, terrain.surfaceHeight(314 * spacing, 369 * spacing), 369 * spacing);
             Components.Add(t1);
-            t1.IsCollidable = true;  // must be set before addObject(...) and Model3D doesn't set it
+            t1.IsCollidable = true;
             t1.addObject(position, new Vector3(0, 1, 0), 0.0f);
             t1.Position = position;
             treasures.Add(t1);
 
             t1 = new Treasure(this, "treasure3", "treasure_chest_closed");
-            position = new Vector3(14400, terrain.surfaceHeight(14400, 12900), 12900);
+            position = new Vector3(96 * spacing, terrain.surfaceHeight(96 * spacing, 186 * spacing), 186 * spacing);
             Components.Add(t1);
-            t1.IsCollidable = true;  // must be set before addObject(...) and Model3D doesn't set it
+            t1.IsCollidable = true;
             t1.addObject(position, new Vector3(0, 1, 0), 0.0f);
             t1.Position = position;
             treasures.Add(t1);
@@ -488,11 +488,11 @@ namespace AGXNASK
                    string.Format("Player:   Location ({0,5:f0},{1,3:f0},{2,5:f0})  Looking at ({3,5:f2},{4,5:f2},{5,5:f2})",
                    player.AgentObject.Translation.X/150, player.AgentObject.Translation.Y, player.AgentObject.Translation.Z/150,
                    player.AgentObject.Forward.X, player.AgentObject.Forward.Y, player.AgentObject.Forward.Z));
-                //inspector.setInfo(12,
-                //   string.Format("npAgent:  Location ({0,5:f0},{1,3:f0},{2,5:f0})  Looking at ({3,5:f2},{4,5:f2},{5,5:f2})",
-                //   npAgent.AgentObject.Translation.X, npAgent.AgentObject.Translation.Y, npAgent.AgentObject.Translation.Z,
-                //   npAgent.AgentObject.Forward.X, npAgent.AgentObject.Forward.Y, npAgent.AgentObject.Forward.Z));
-               // inspector.setMatrices("player", "npAgent", player.AgentObject.Orientation, npAgent.AgentObject.Orientation);
+                inspector.setInfo(12,
+                   string.Format("npAgent:  Location ({0,5:f0},{1,3:f0},{2,5:f0})  Looking at ({3,5:f2},{4,5:f2},{5,5:f2})",
+                   npAgent.AgentObject.Translation.X, npAgent.AgentObject.Translation.Y, npAgent.AgentObject.Translation.Z,
+                   npAgent.AgentObject.Forward.X, npAgent.AgentObject.Forward.Y, npAgent.AgentObject.Forward.Z));
+                inspector.setMatrices("player", "npAgent", player.AgentObject.Orientation, npAgent.AgentObject.Orientation);
             }
             // Process user keyboard and gamepad events that relate to the render 
             // state of the the stage
@@ -589,11 +589,10 @@ namespace AGXNASK
             foreach (Treasure t in treasures)
             {
                 Vector3 pos = new Vector3(player.AgentObject.Translation.X,player.AgentObject.Translation.Y, player.AgentObject.Translation.Z);
-                float distance = Vector3.Distance(t.Position, pos);
-                if (distance <= 2000)
+                float playerDistance = Vector3.Distance(t.Position, pos);
+                if (playerDistance <= 2000)
                     t.Captured = true;
             }
         }
-
     }
 }

@@ -51,6 +51,8 @@ namespace AGXNASK
         private int snapDistance = 20;
         private int turnCount = 0;
         private Boolean treasureHunting;
+        Treasure nearest;
+        
 
 
         /// <summary>
@@ -69,12 +71,13 @@ namespace AGXNASK
             first.Name = "npFirst";
             follow.Name = "npFollow";
             above.Name = "npAbove";
-            // IsCollidable = true;  // have NPAgent test collisions
+             //IsCollidable = false;  // have NPAgent test collisions
             // path is built to work on specific terrain
             path = new Path(stage, makePath(), Path.PathType.REVERSE); // continuous search path
             stage.Components.Add(path);
             nextGoal = path.NextNode;  // get first path goal
             agentObject.turnToFace(nextGoal.Translation);  // orient towards the first path goal
+            treasureHunting = false;
         }
 
         /// <summary>
@@ -136,11 +139,19 @@ namespace AGXNASK
                new Vector3(nextGoal.Translation.X, 0, nextGoal.Translation.Z),
                new Vector3(agentObject.Translation.X, 0, agentObject.Translation.Z));
             
-            if (distance <= snapDistance)
+            if (distance <= snapDistance || (distance <= 2000 && treasureHunting))
             {
                 stage.setInfo(17, string.Format("distance to goal = {0,5:f2}", distance));
                 // snap to nextGoal and orient toward the new nextGoal 
-                nextGoal = path.NextNode;
+                if (treasureHunting)
+                {
+                    nextGoal = previousGoal;
+                    treasureHunting = false;
+                }
+                else
+                {
+                    nextGoal = path.NextNode;
+                }
                 agentObject.turnToFace(nextGoal.Translation);
                 if (path.Done)
                     stage.setInfo(18, "path traversal is done");
@@ -155,27 +166,36 @@ namespace AGXNASK
 
         public Treasure getNearest(List<Treasure> treasures)
         {
-            Treasure nearest = null;
+            Treasure nearest = treasures.First<Treasure>();
             Vector3 position = new Vector3(AgentObject.Translation.X, AgentObject.Translation.Y, AgentObject.Translation.Z);
-            float minDistance = Vector3.Distance(position, treasures.First<Treasure>().Position); 
-           
+            float minDistance = Vector3.Distance(position, treasures.First<Treasure>().Position);
+
             foreach (Treasure t in treasures)
             {
                 float distance = Vector3.Distance(position, t.Position);
-                if (distance < minDistance)
+                if (distance < minDistance && !t.Captured)
                 {
                     minDistance = distance;
                     nearest = t;
                 }
             }
 
-            return nearest;
+            if (nearest.Captured)
+                return null;
+            else
+                return nearest;
         }
 
         public void GoToTreasure(List<Treasure> treasures)
         {
+            treasureHunting = true;
             previousGoal = nextGoal;
-            nextGoal = getNearest(treasures).Pos;
+            nearest = getNearest(treasures);
+            if (nearest != null)
+            {
+                nextGoal = nearest.Pos;
+                AgentObject.turnToFace(nextGoal.Translation);
+            }
         }
     }
 }

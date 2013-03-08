@@ -48,7 +48,7 @@ namespace AGXNASK
         protected Camera agentCamera, first, follow, above;
         public enum CameraCase { FirstCamera, FollowCamera, AboveCamera }
         public Vector3 Position;
-
+        protected int treasureCount;
 
         /// <summary>
         /// Create an Agent.
@@ -62,8 +62,7 @@ namespace AGXNASK
         /// <param name="radians"></param>
         /// <param name="meshFile"></param>
         /// </summary>
-        public Agent(Stage stage, string label, Vector3 position, Vector3 orientAxis,
-           float radians, string meshFile)
+        public Agent(Stage stage, string label, Vector3 position, Vector3 orientAxis, float radians, string meshFile)
             : base(stage, label, meshFile)
         {
             Position = position;
@@ -76,6 +75,7 @@ namespace AGXNASK
             stage.addCamera(follow);
             stage.addCamera(above);
             agentCamera = first;
+            treasureCount = 0;
         }
 
         // Properties  

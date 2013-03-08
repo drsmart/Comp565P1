@@ -154,7 +154,6 @@ public class Path : DrawableGameComponent {
                stage.setBlendingState(false);
             }
          }
-      }
-      
+      }   
    }
 }
