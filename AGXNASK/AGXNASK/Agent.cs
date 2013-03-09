@@ -49,6 +49,7 @@ namespace AGXNASK
         public enum CameraCase { FirstCamera, FollowCamera, AboveCamera }
         public Vector3 Position;
         protected int treasureCount;
+        protected List<Treasure> treasures;
 
         /// <summary>
         /// Create an Agent.
@@ -110,6 +111,11 @@ namespace AGXNASK
         {
             get { return treasureCount; }
             set { treasureCount = value; }
+        }
+
+        public List<Treasure> Treasures
+        {
+            set { treasures = value; }
         }
 
         // Methods

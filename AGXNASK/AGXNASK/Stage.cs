@@ -106,7 +106,8 @@ namespace AGXNASK
         Texture2D bgTexture;
         private List<Treasure> treasures = new List<Treasure>();
 
-        public Stage() : base()
+        public Stage()
+            : base()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
@@ -419,9 +420,9 @@ namespace AGXNASK
 
             Treasure t1 = new Treasure(this, "treasure1", "treasure_chest_closed");
             Vector3 position = new Vector3(296 * spacing, terrain.surfaceHeight(296 * spacing, 451 * spacing), 451 * spacing);
-            
+
             Components.Add(t1);
-            t1.IsCollidable = true;  // must be set before addObject(...) and Model3D doesn't set it
+            t1.IsCollidable = true;
             t1.addObject(position, new Vector3(0, 1, 0), 0.0f);
             t1.Position = position;
             treasures.Add(t1);
@@ -429,7 +430,7 @@ namespace AGXNASK
             t1 = new Treasure(this, "treasure2", "treasure_chest_closed");
             position = new Vector3(430 * spacing, terrain.surfaceHeight(430, 300), 300 * spacing);
             Components.Add(t1);
-            t1.IsCollidable = true;  // must be set before addObject(...) and Model3D doesn't set it
+            t1.IsCollidable = true;
             t1.addObject(position, new Vector3(0, 1, 0), 0.0f);
             t1.Position = position;
             treasures.Add(t1);
@@ -449,6 +450,10 @@ namespace AGXNASK
             t1.addObject(position, new Vector3(0, 1, 0), 0.0f);
             t1.Position = position;
             treasures.Add(t1);
+
+            //Give the npAgent a list of the treasures
+            npAgent.Treasures = treasures;
+            player.Treasures = treasures;
         }
 
         /// <summary>
@@ -484,7 +489,7 @@ namespace AGXNASK
                 fpsSecond = 0.0;
                 inspector.setInfo(11,
                    string.Format("Player:   Location ({0,5:f0},{1,3:f0},{2,5:f0})  Looking at ({3,5:f2},{4,5:f2},{5,5:f2}) Treasure Count: {6}",
-                   player.AgentObject.Translation.X/150, player.AgentObject.Translation.Y, player.AgentObject.Translation.Z/150,
+                   player.AgentObject.Translation.X / 150, player.AgentObject.Translation.Y, player.AgentObject.Translation.Z / 150,
                    player.AgentObject.Forward.X, player.AgentObject.Forward.Y, player.AgentObject.Forward.Z, player.TreasureCount));
                 inspector.setInfo(12,
                    string.Format("npAgent:  Location ({0,5:f0},{1,3:f0},{2,5:f0})  Looking at ({3,5:f2},{4,5:f2},{5,5:f2}) Treasure Count: {6}",
@@ -492,8 +497,7 @@ namespace AGXNASK
                    npAgent.AgentObject.Forward.X, npAgent.AgentObject.Forward.Y, npAgent.AgentObject.Forward.Z, npAgent.TreasureCount));
                 inspector.setMatrices("player", "npAgent", player.AgentObject.Orientation, npAgent.AgentObject.Orientation);
             }
-            // Process user keyboard and gamepad events that relate to the render 
-            // state of the the stage
+
             GamePadState gamePadState = GamePad.GetState(PlayerIndex.One);
             if (gamePadState.IsConnected)
             {
@@ -515,11 +519,17 @@ namespace AGXNASK
                 // set help display on
 
                 else if (keyboardState.IsKeyDown(Keys.B) && !oldKeyboardState.IsKeyDown(Keys.B))
+                {
                     DrawBoundingSpheres = !DrawBoundingSpheres;
+                }
                 else if (keyboardState.IsKeyDown(Keys.C) && !oldKeyboardState.IsKeyDown(Keys.C))
+                {
                     nextCamera();
+                }
                 else if (keyboardState.IsKeyDown(Keys.F) && !oldKeyboardState.IsKeyDown(Keys.F))
+                {
                     Fog = !Fog;
+                }
                 else if (keyboardState.IsKeyDown(Keys.H) && !oldKeyboardState.IsKeyDown(Keys.H))
                 {
                     inspector.ShowHelp = !inspector.ShowHelp;
@@ -527,25 +537,25 @@ namespace AGXNASK
                 }
                 // set info display on
                 else if (keyboardState.IsKeyDown(Keys.I) && !oldKeyboardState.IsKeyDown(Keys.I))
+                {
                     inspector.showInfo();
+                }
                 // set miscellaneous display on
                 else if (keyboardState.IsKeyDown(Keys.M) && !oldKeyboardState.IsKeyDown(Keys.M))
                 {
                     inspector.ShowMatrices = !inspector.ShowMatrices;
                     inspector.ShowHelp = false;
                 }
-                    //Treasure checking
-                else if (keyboardState.IsKeyDown(Keys.N) && !oldKeyboardState.IsKeyDown(Keys.N))
-                {
-                    npAgent.GoToTreasure(treasures);   
-                }
                 else if (keyboardState.IsKeyDown(Keys.T) && !oldKeyboardState.IsKeyDown(Keys.T))
+                {
                     FixedStepRendering = !FixedStepRendering;
+                }
                 else if (keyboardState.IsKeyDown(Keys.Y) && !oldKeyboardState.IsKeyDown(Keys.Y))
+                {
                     YonFlag = !YonFlag;  // toggle Yon clipping value.
+                }
                 oldKeyboardState = keyboardState;    // Update saved state.
             }
-            checkTreasures();
             base.Update(gameTime);  // update all GameComponents and DrawableGameComponents
             currentCamera.updateViewMatrix();
         }
@@ -580,20 +590,6 @@ namespace AGXNASK
             display.Viewport = sceneViewport;
             display.RasterizerState = RasterizerState.CullNone;
             base.Draw(gameTime);
-        }
-
-        protected void checkTreasures()
-        {
-            foreach (Treasure t in treasures)
-            {
-                Vector3 pos = new Vector3(player.AgentObject.Translation.X,player.AgentObject.Translation.Y, player.AgentObject.Translation.Z);
-                float playerDistance = Vector3.Distance(t.Position, pos);
-                if (playerDistance <= 2000 && !t.Captured)
-                {
-                    t.Captured = true;
-                    player.TreasureCount++;
-                }
-            }
         }
     }
 }

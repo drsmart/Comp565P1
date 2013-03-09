@@ -51,10 +51,9 @@ namespace AGXNASK
         private int snapDistance = 20;
         private int turnCount = 0;
         private Boolean treasureHunting;
-        Treasure nearest;
+        private KeyboardState oldKeyboardState;
+        private Treasure nearest;
         
-
-
         /// <summary>
         /// Create a NPC. 
         /// AGXNASK distribution has npAgent move following a Path.
@@ -71,7 +70,8 @@ namespace AGXNASK
             first.Name = "npFirst";
             follow.Name = "npFollow";
             above.Name = "npAbove";
-             //IsCollidable = false;  // have NPAgent test collisions
+            //IsCollidable = false;  // have NPAgent test collisions
+            
             // path is built to work on specific terrain
             path = new Path(stage, makePath(), Path.PathType.REVERSE); // continuous search path
             stage.Components.Add(path);
@@ -127,6 +127,7 @@ namespace AGXNASK
         /// </summary>
         public override void Update(GameTime gameTime)
         {
+            KeyboardState keyboardState = Keyboard.GetState();
             stage.setInfo(15,
                string.Format("npAvatar:  Location ({0:f0},{1:f0},{2:f0})  Looking at ({3:f2},{4:f2},{5:f2})",
                   agentObject.Translation.X, agentObject.Translation.Y, agentObject.Translation.Z,
@@ -138,6 +139,11 @@ namespace AGXNASK
             float distance = Vector3.Distance(
                new Vector3(nextGoal.Translation.X, 0, nextGoal.Translation.Z),
                new Vector3(agentObject.Translation.X, 0, agentObject.Translation.Z));
+
+            if (keyboardState.IsKeyDown(Keys.N) && !oldKeyboardState.IsKeyDown(Keys.N))
+            {
+                GoToTreasure();
+            }
             
             if (distance <= snapDistance || (distance <= 2000 && treasureHunting))
             {
@@ -191,7 +197,7 @@ namespace AGXNASK
                 return nearest;
         }
 
-        public void GoToTreasure(List<Treasure> treasures)
+        public void GoToTreasure()
         {
             nearest = getNearest(treasures);
             if (nearest != null && !treasureHunting)

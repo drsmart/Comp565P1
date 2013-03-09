@@ -119,9 +119,27 @@ namespace AGXNASK
             }
 
             agentObject.Yaw = rotate * angle;
+
+            if(treasures != null)
+                checkTreasures();
+
             base.Update(gameTime);
             rotate = agentObject.Step = 0;
 
+        }
+
+        protected void checkTreasures()
+        {
+            foreach (Treasure t in treasures)
+            {
+                Vector3 pos = new Vector3(AgentObject.Translation.X, AgentObject.Translation.Y, AgentObject.Translation.Z);
+                float playerDistance = Vector3.Distance(t.Position, pos);
+                if (playerDistance <= 2000 && !t.Captured)
+                {
+                    t.Captured = true;
+                    TreasureCount++;
+                }
+            }
         }
     }
 }
