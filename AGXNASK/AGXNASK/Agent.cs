@@ -106,6 +106,12 @@ namespace AGXNASK
             get { return above; }
         }
 
+        public int TreasureCount
+        {
+            get { return treasureCount; }
+            set { treasureCount = value; }
+        }
+
         // Methods
 
         public override string ToString()

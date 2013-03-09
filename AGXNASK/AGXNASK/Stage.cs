@@ -443,14 +443,12 @@ namespace AGXNASK
             treasures.Add(t1);
 
             t1 = new Treasure(this, "treasure3", "treasure_chest_closed");
-            position = new Vector3(96 * spacing, terrain.surfaceHeight(96 * spacing, 186 * spacing), 186 * spacing);
+            position = new Vector3(450 * spacing, terrain.surfaceHeight(450 * spacing, 400 * spacing), 400 * spacing);
             Components.Add(t1);
             t1.IsCollidable = true;
             t1.addObject(position, new Vector3(0, 1, 0), 0.0f);
             t1.Position = position;
             treasures.Add(t1);
-            
-            //t1.addObject(new Vector3(47181, terrain.surfaceHeight(47181, 55379), 55379), new Vector3(0, 1, 0), 0.0f);
         }
 
         /// <summary>
@@ -485,13 +483,13 @@ namespace AGXNASK
                 draws = updates = 0;
                 fpsSecond = 0.0;
                 inspector.setInfo(11,
-                   string.Format("Player:   Location ({0,5:f0},{1,3:f0},{2,5:f0})  Looking at ({3,5:f2},{4,5:f2},{5,5:f2})",
+                   string.Format("Player:   Location ({0,5:f0},{1,3:f0},{2,5:f0})  Looking at ({3,5:f2},{4,5:f2},{5,5:f2}) Treasure Count: {6}",
                    player.AgentObject.Translation.X/150, player.AgentObject.Translation.Y, player.AgentObject.Translation.Z/150,
-                   player.AgentObject.Forward.X, player.AgentObject.Forward.Y, player.AgentObject.Forward.Z));
+                   player.AgentObject.Forward.X, player.AgentObject.Forward.Y, player.AgentObject.Forward.Z, player.TreasureCount));
                 inspector.setInfo(12,
-                   string.Format("npAgent:  Location ({0,5:f0},{1,3:f0},{2,5:f0})  Looking at ({3,5:f2},{4,5:f2},{5,5:f2})",
+                   string.Format("npAgent:  Location ({0,5:f0},{1,3:f0},{2,5:f0})  Looking at ({3,5:f2},{4,5:f2},{5,5:f2}) Treasure Count: {6}",
                    npAgent.AgentObject.Translation.X, npAgent.AgentObject.Translation.Y, npAgent.AgentObject.Translation.Z,
-                   npAgent.AgentObject.Forward.X, npAgent.AgentObject.Forward.Y, npAgent.AgentObject.Forward.Z));
+                   npAgent.AgentObject.Forward.X, npAgent.AgentObject.Forward.Y, npAgent.AgentObject.Forward.Z, npAgent.TreasureCount));
                 inspector.setMatrices("player", "npAgent", player.AgentObject.Orientation, npAgent.AgentObject.Orientation);
             }
             // Process user keyboard and gamepad events that relate to the render 
@@ -581,7 +579,7 @@ namespace AGXNASK
             // draw objects in stage 
             display.Viewport = sceneViewport;
             display.RasterizerState = RasterizerState.CullNone;
-            base.Draw(gameTime);  // draw all GameComponents and DrawableGameComponents
+            base.Draw(gameTime);
         }
 
         protected void checkTreasures()
@@ -590,8 +588,11 @@ namespace AGXNASK
             {
                 Vector3 pos = new Vector3(player.AgentObject.Translation.X,player.AgentObject.Translation.Y, player.AgentObject.Translation.Z);
                 float playerDistance = Vector3.Distance(t.Position, pos);
-                if (playerDistance <= 2000)
+                if (playerDistance <= 2000 && !t.Captured)
+                {
                     t.Captured = true;
+                    player.TreasureCount++;
+                }
             }
         }
     }

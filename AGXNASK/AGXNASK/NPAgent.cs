@@ -147,6 +147,11 @@ namespace AGXNASK
                 {
                     nextGoal = previousGoal;
                     treasureHunting = false;
+                    if (!nearest.Captured)
+                    {
+                        nearest.Captured = true;
+                        TreasureCount++;
+                    }
                 }
                 else
                 {
@@ -164,7 +169,7 @@ namespace AGXNASK
             base.Update(gameTime);  // Agent's Update();
         }
 
-        public Treasure getNearest(List<Treasure> treasures)
+        private Treasure getNearest(List<Treasure> treasures)
         {
             Treasure nearest = treasures.First<Treasure>();
             Vector3 position = new Vector3(AgentObject.Translation.X, AgentObject.Translation.Y, AgentObject.Translation.Z);
@@ -188,11 +193,11 @@ namespace AGXNASK
 
         public void GoToTreasure(List<Treasure> treasures)
         {
-            treasureHunting = true;
-            previousGoal = nextGoal;
             nearest = getNearest(treasures);
-            if (nearest != null)
+            if (nearest != null && !treasureHunting)
             {
+                treasureHunting = true;
+                previousGoal = nextGoal;
                 nextGoal = nearest.Pos;
                 AgentObject.turnToFace(nextGoal.Translation);
             }
