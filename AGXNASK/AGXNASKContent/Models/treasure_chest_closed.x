@@ -9,7 +9,7 @@ Material MatTex_1_1 {
   128.0;
   0.2; 0.2; 0.2;;
   0.0; 0.0; 0.0;;
-  TextureFileName { "treasureChestTexture.jpg"; }
+  TextureFileName { "../Textures/treasureChestTexture.jpg"; }
 }
 
 Material MatTex_1_2 {
@@ -17,7 +17,7 @@ Material MatTex_1_2 {
   128.0;
   0.2; 0.2; 0.2;;
   0.0; 0.0; 0.0;;
-  TextureFileName { "treasureChestTextureLock.jpg"; }
+  TextureFileName { "../Textures/treasureChestTextureLock.jpg"; }
 }
 
 

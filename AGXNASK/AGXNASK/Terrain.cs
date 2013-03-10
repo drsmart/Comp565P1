@@ -67,11 +67,11 @@ namespace AGXNASK
             // set display information 
             display = stage.Display;
             effect = stage.SceneEffect;
-            heightTexture = stage.Content.Load<Texture2D>(heightFile);
+            heightTexture = stage.Content.Load<Texture2D>("Textures/" + heightFile);
             heightMap = new Microsoft.Xna.Framework.Color[width * height];
             heightTexture.GetData<Microsoft.Xna.Framework.Color>(heightMap);
             // create colorMap values from colorTexture
-            colorTexture = stage.Content.Load<Texture2D>(colorFile);
+            colorTexture = stage.Content.Load<Texture2D>("Textures/" + colorFile);
             colorMap = new Microsoft.Xna.Framework.Color[width * height];
             colorTexture.GetData<Microsoft.Xna.Framework.Color>(colorMap);
             // create  vertices for terrain
@@ -136,31 +136,7 @@ namespace AGXNASK
             if (xPos < 0 || xPos > 511 || zPos < 0 || zPos > 511) 
                 return 0.0f;  // index valid ?
             float height = 0.0f;
-            //Vector3 A;
-            //Vector3 B;
-            //Vector3 C;
 
-            //int aX = (int)(x / spacing);
-            //int aZ = (int)z / spacing;
-            //int aY = terrainHeight[aX, aZ];
-            //A = new Vector3(aX, aY, aZ);
-
-            //int bX = (int)A.X + 1;
-            //int bZ = (int)A.Z;
-            //int bY = terrainHeight[bX, bZ];
-            //B = new Vector3(bX, bY, bZ);
-
-            //int cX = (int)A.X;
-            //int cZ = (int)A.Z + 1;
-            //int cY = terrainHeight[cX, cZ];
-            //C = new Vector3(cX, cY, cZ);
-
-            //float xY = Vector3.Lerp(A, B, (x - A.X) / spacing).Y - A.Y;
-            //float zY = Vector3.Lerp(A, C, (z - A.Z) / spacing).Y - A.Y;
-
-           // height = A.Y + xY + zY;
-
-            
             int xPlusOne = xPos + 1;
             int zPlusOne = zPos + 1;
 
@@ -184,42 +160,6 @@ namespace AGXNASK
                 height += (triZ1 - triZ3) * (1.0f - sqZ);
                 height += (triZ2 - triZ3) * (1.0f - sqX);
             }
-
-            //Plane surface;
-
-            //int xPlusOne = xPos + 1;
-            //int zPlusOne = zPos + 1;
-
-            //float triZ0 = (this.terrainHeight[xPos, zPos]);
-            //float triZ1 = (this.terrainHeight[xPlusOne, zPos]);
-            //float triZ2 = (this.terrainHeight[xPos, zPlusOne]);
-            //float triZ3 = (this.terrainHeight[xPlusOne, zPlusOne]);
-
-            //Vector3 v0 = new Vector3(xPos, triZ0, zPos);
-            //Vector3 v1 = new Vector3(xPlusOne, triZ1, zPos);
-            //Vector3 v2 = new Vector3(xPos, triZ2, zPlusOne);
-            //Vector3 v3 = new Vector3(xPlusOne, triZ3, zPlusOne);
-
-            //float sqX = (x / spacing) - xPos;
-            //float sqZ = (z / spacing) - zPos;
-
-            //if ((sqX + sqZ) > 1)
-            //{
-            //    surface = new Plane(v2, v1, v3);
-            //}
-            //else
-            //{
-            //    surface = new Plane(v0, v1, v2);
-            //}
-
-            //Vector3 normal = surface.Normal;
-
-            //float dx = x /150- v0.X ;
-            //float dz = z /150- v0.Z;
-
-            //height = v2.Y + (normal.X * dx + normal.Z * dz) / -normal.Y;
-            //height = (normal.X + normal.Y + normal.Z - normal.X * x - normal.Z * z) / normal.Y;
-
 
             return height;
         }

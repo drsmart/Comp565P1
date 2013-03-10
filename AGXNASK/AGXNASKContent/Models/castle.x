@@ -9,7 +9,7 @@ Material MatTex_1_4 {
   128.0;
   0.2; 0.2; 0.2;;
   0.0; 0.0; 0.0;;
-  TextureFileName { "castle-wall-texture.jpg"; }
+  TextureFileName { "../Textures/castle-wall-texture.jpg"; }
 }
 
 

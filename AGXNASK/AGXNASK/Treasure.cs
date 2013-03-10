@@ -33,7 +33,7 @@ namespace AGXNASK
         }
         private Model closed;
         private Model open;
-        private const string opendModel = "treasure_chest";
+        private const string opendModel = "Models/treasure_chest";
 
         public Treasure(Stage stage, string name, string file)
             : base(stage, name, file)

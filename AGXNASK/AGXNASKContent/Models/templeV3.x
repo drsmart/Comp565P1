@@ -28,7 +28,7 @@ Material MatTex_1_1 {
   10.0;
   0.0; 0.0; 0.0;;
   0.0; 0.0; 0.0;;
-  TextureFileName { "marble.png"; }
+  TextureFileName { "../Textures/marble.png"; }
 }
 
 

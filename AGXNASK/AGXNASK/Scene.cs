@@ -68,11 +68,11 @@ namespace AGXNASK
             //Components.Add(m3d);
 
             // create walls for obstacle avoidance or path finding algorithms
-            Wall wall = new Wall(this, "wall", "100x100x100Brick");
+            Wall wall = new Wall(this, "wall", "Models/100x100x100Brick");
             Components.Add(wall);
 
             // create a Pack of dogs
-            Pack pack = new Pack(this, "dog", "dogV3");
+            Pack pack = new Pack(this, "dog", "Models/dogV3");
             Components.Add(pack);
             Random random = new Random();
             for (int x = -9; x < 10; x += 6)
@@ -87,7 +87,7 @@ namespace AGXNASK
                        new Vector3(scale, scale, scale));
                 }
             // create some clouds
-            Cloud cloud = new Cloud(this, "cloud", "cloudV3");
+            Cloud cloud = new Cloud(this, "cloud", "Models/cloudV3");
             Components.Add(cloud);
             // add 9 cloud instances
             for (int x = range / 4; x < range; x += (range / 4))

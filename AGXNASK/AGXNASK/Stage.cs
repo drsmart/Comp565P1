@@ -102,6 +102,8 @@ namespace AGXNASK
         // Screen display information variables
         protected double fpsSecond;
         protected int draws, updates;
+        protected const string MODELPREFIX = "Models/";
+        protected const string TEXTUREPREFIX = "Textures/";
         Song song;
         Texture2D bgTexture;
         private List<Treasure> treasures = new List<Treasure>();
@@ -354,7 +356,7 @@ namespace AGXNASK
         protected override void LoadContent()
         {
             song = Content.Load<Song>("Third Awakening");
-            bgTexture = Content.Load<Texture2D>("nightbg");
+            bgTexture = Content.Load<Texture2D>("Textures/nightbg");
             display = graphics.GraphicsDevice;
             effect = new BasicEffect(display);
             // Set up Inspector display
@@ -372,7 +374,7 @@ namespace AGXNASK
             sceneProjection = Matrix.CreatePerspectiveFieldOfView((float)Math.PI / 4.0f,
                sceneViewport.Width / sceneViewport.Height, 1.0f, 1000.0f);
             // create Inspector display
-            Texture2D inspectorBackground = Content.Load<Texture2D>("inspectorBackground");
+            Texture2D inspectorBackground = Content.Load<Texture2D>("Textures/inspectorBackground");
             inspector = new Inspector(display, inspectorViewport, inspectorFont, Color.Black, inspectorBackground);
             // create information display strings
             // help strings
@@ -400,8 +402,8 @@ namespace AGXNASK
             // Create a top-down "Whole stage" camera view, make it first camera in collection.
             topDownCamera = new Camera(this, Camera.CameraEnum.TopDownCamera);
             camera.Add(topDownCamera);
-            boundingSphere3D = Content.Load<Model>("boundingSphereV3");
-            wayPoint3D = Content.Load<Model>("100x50x100Marker"); //100x50x100Marker
+            boundingSphere3D = Content.Load<Model>(MODELPREFIX + "boundingSphereV3");
+            wayPoint3D = Content.Load<Model>(MODELPREFIX + "100x50x100Marker"); //100x50x100Marker
             // Create required entities:  
             collidable = new List<Object3D>();
             terrain = new Terrain(this, "terrain", "heightTexture", "colorTexture");
@@ -409,16 +411,16 @@ namespace AGXNASK
             // Load Avatar mesh objects, Avatar meshes do not have textures
             player = new Player(this, "Chaser",
                new Vector3(510 * spacing, terrain.surfaceHeight(510, 507), 507 * spacing),
-               new Vector3(0, 1, 0), 0.80f, "redAvatarV3");  // face looking diagonally across stage
+               new Vector3(0, 1, 0), 0.80f, MODELPREFIX + "redAvatarV3");  // face looking diagonally across stage
             Components.Add(player);
             npAgent = new NPAgent(this, "Evader",
                new Vector3(400 * spacing, terrain.surfaceHeight(400, 400), 400 * spacing),
-               new Vector3(0, 1, 0), 0.0f, "magentaAvatarV3");  // facing +Z
+               new Vector3(0, 1, 0), 0.0f, MODELPREFIX + "magentaAvatarV3");  // facing +Z
             Components.Add(npAgent);
             //marker = Content.Load<Model>("markerV3");
             MediaPlayer.Play(song);
 
-            Treasure t1 = new Treasure(this, "treasure1", "treasure_chest_closed");
+            Treasure t1 = new Treasure(this, "treasure1", MODELPREFIX + "treasure_chest_closed");
             Vector3 position = new Vector3(296 * spacing, terrain.surfaceHeight(296 * spacing, 451 * spacing), 451 * spacing);
 
             Components.Add(t1);
@@ -427,7 +429,7 @@ namespace AGXNASK
             t1.Position = position;
             treasures.Add(t1);
 
-            t1 = new Treasure(this, "treasure2", "treasure_chest_closed");
+            t1 = new Treasure(this, "treasure2", MODELPREFIX + "treasure_chest_closed");
             position = new Vector3(430 * spacing, terrain.surfaceHeight(430, 300), 300 * spacing);
             Components.Add(t1);
             t1.IsCollidable = true;
@@ -435,7 +437,7 @@ namespace AGXNASK
             t1.Position = position;
             treasures.Add(t1);
 
-            t1 = new Treasure(this, "treasure3", "treasure_chest_closed");
+            t1 = new Treasure(this, "treasure3", MODELPREFIX + "treasure_chest_closed");
             position = new Vector3(314 * spacing, terrain.surfaceHeight(314 * spacing, 369 * spacing), 369 * spacing);
             Components.Add(t1);
             t1.IsCollidable = true;
@@ -443,7 +445,7 @@ namespace AGXNASK
             t1.Position = position;
             treasures.Add(t1);
 
-            t1 = new Treasure(this, "treasure3", "treasure_chest_closed");
+            t1 = new Treasure(this, "treasure3", MODELPREFIX + "treasure_chest_closed");
             position = new Vector3(450 * spacing, terrain.surfaceHeight(450 * spacing, 400 * spacing), 400 * spacing);
             Components.Add(t1);
             t1.IsCollidable = true;
