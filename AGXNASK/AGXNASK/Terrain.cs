@@ -138,8 +138,10 @@ namespace AGXNASK
         /// <returns> vertical height of surface containing position (x,z)</returns>
         public float surfaceHeight(float x, float z)
         {
+            //Get the vertex closest to the current position
             int xPos = (int)(x / spacing);
             int zPos = (int)(z / spacing);
+
             //if (xPos < 0 || xPos > 511 || zPos < 0 || zPos > 511) 
             //    return 0.0f;  // index valid ?
             float height = 0.0f;
@@ -147,14 +149,17 @@ namespace AGXNASK
             int xPlusOne = xPos + 1;
             int zPlusOne = zPos + 1;
 
+            //Get the height of the four vertices of the square around
             float triZ0 = (this.terrainHeight[xPos, zPos]);
             float triZ1 = (this.terrainHeight[xPlusOne, zPos]);
             float triZ2 = (this.terrainHeight[xPos, zPlusOne]);
             float triZ3 = (this.terrainHeight[xPlusOne, zPlusOne]);
 
+            //Get the amount to use for interpolation
             float sqX = (x / spacing) - xPos;
             float sqZ = (z / spacing) - zPos;
 
+            //Determine if in the top or bottom triangle then interpolate
             if ((sqX + sqZ) < 1)
             {
                 height = triZ0;

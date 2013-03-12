@@ -47,6 +47,7 @@ namespace AGXNASK
             : base(stage, name, file)
         {
             open = stage.Content.Load<Model>(opendModel);
+            isCollidable = false;
             closed = model;
             captured = false;
             position = new NavNode(Vector3.Zero, NavNode.NavNodeEnum.VERTEX);

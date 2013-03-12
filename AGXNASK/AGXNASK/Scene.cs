@@ -69,9 +69,9 @@ namespace AGXNASK
         {
             base.LoadContent();  // create the Scene entities -- Inspector.
 
-            // create a temple
+            // create a castle
             Model3D m3d = new Model3D(this, "castle", "Models/castle");
-            m3d.IsCollidable = false;  // must be set before addObject(...) and Model3D doesn't set it
+            m3d.IsCollidable = false;
             m3d.addObject(new Vector3(430 * spacing, terrain.surfaceHeight(430, 300), 300 * spacing), new Vector3(0, 1, 0), 0.0f);
             Components.Add(m3d);
 

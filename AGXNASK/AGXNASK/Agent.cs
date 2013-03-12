@@ -56,8 +56,8 @@ namespace AGXNASK
         protected Camera agentCamera, first, follow, above;
         public enum CameraCase { FirstCamera, FollowCamera, AboveCamera }
         public Vector3 Position;
-        protected int treasureCount;
-        protected List<Treasure> treasures;
+        protected int treasureCount;            //Count of the number of treasures an agent has tagged
+        protected List<Treasure> treasures;     //List of treasures on the stage
 
         /// <summary>
         /// Create an Agent.

@@ -438,7 +438,6 @@ namespace AGXNASK
             Vector3 position = new Vector3(296 * spacing, terrain.surfaceHeight(296 * spacing, 451 * spacing), 451 * spacing);
 
             Components.Add(t1);
-            t1.IsCollidable = true;
             t1.addObject(position, new Vector3(0, 1, 0), 0.0f);
             t1.VectorPosition = position;
             treasures.Add(t1);
@@ -446,7 +445,6 @@ namespace AGXNASK
             t1 = new Treasure(this, "treasure2", MODELPREFIX + "treasure_chest_closed");
             position = new Vector3(430 * spacing, terrain.surfaceHeight(430, 300), 300 * spacing);
             Components.Add(t1);
-            t1.IsCollidable = true;
             t1.addObject(position, new Vector3(0, 1, 0), 0.0f);
             t1.VectorPosition = position;
             treasures.Add(t1);
@@ -454,7 +452,6 @@ namespace AGXNASK
             t1 = new Treasure(this, "treasure3", MODELPREFIX + "treasure_chest_closed");
             position = new Vector3(314 * spacing, terrain.surfaceHeight(314 * spacing, 369 * spacing), 369 * spacing);
             Components.Add(t1);
-            t1.IsCollidable = true;
             t1.addObject(position, new Vector3(0, 1, 0), 0.0f);
             t1.VectorPosition = position;
             treasures.Add(t1);
@@ -462,7 +459,6 @@ namespace AGXNASK
             t1 = new Treasure(this, "treasure3", MODELPREFIX + "treasure_chest_closed");
             position = new Vector3(450 * spacing, terrain.surfaceHeight(450 * spacing, 400 * spacing), 400 * spacing);
             Components.Add(t1);
-            t1.IsCollidable = true;
             t1.addObject(position, new Vector3(0, 1, 0), 0.0f);
             t1.VectorPosition = position;
             treasures.Add(t1);

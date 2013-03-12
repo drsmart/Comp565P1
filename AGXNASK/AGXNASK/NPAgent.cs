@@ -180,9 +180,14 @@ namespace AGXNASK
                     stage.setInfo(18, string.Format("turnToFace count = {0}", turnCount));
                 }
             }
-            base.Update(gameTime);  // Agent's Update();
+            base.Update(gameTime);
         }
 
+        /// <summary>
+        /// Gets the nearest untagged treasure from the list of treasures
+        /// </summary>
+        /// <param name="treasures">The list of treasure on the stage</param>
+        /// <returns>The nearest untagged Treasure</returns>
         private Treasure getNearest(List<Treasure> treasures)
         {
             Treasure nearest = treasures.First<Treasure>();
@@ -205,6 +210,9 @@ namespace AGXNASK
                 return nearest;
         }
 
+        /// <summary>
+        /// Sets the NPAgents nextgoal to the nearest treasure if one exists
+        /// </summary>
         public void GoToTreasure()
         {
             nearest = getNearest(treasures);
