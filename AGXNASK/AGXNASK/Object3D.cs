@@ -28,6 +28,13 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 
+/* Sam Huffman
+ * Devon Smart
+ * Comp 565
+ * AGNXNASK 1
+ * sam.huffman.11@my.csun.edu
+ * devon.smart.962@my.csun.edu
+ */
 
 namespace AGXNASK
 {

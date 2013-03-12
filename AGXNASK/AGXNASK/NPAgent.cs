@@ -17,6 +17,14 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+/* Sam Huffman
+ * Devon Smart
+ * Comp 565
+ * AGNXNASK 1
+ * sam.huffman.11@my.csun.edu
+ * devon.smart.962@my.csun.edu
+ */
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -179,11 +187,11 @@ namespace AGXNASK
         {
             Treasure nearest = treasures.First<Treasure>();
             Vector3 position = new Vector3(AgentObject.Translation.X, AgentObject.Translation.Y, AgentObject.Translation.Z);
-            float minDistance = Vector3.Distance(position, treasures.First<Treasure>().Position);
+            float minDistance = Vector3.Distance(position, treasures.First<Treasure>().VectorPosition);
 
             foreach (Treasure t in treasures)
             {
-                float distance = Vector3.Distance(position, t.Position);
+                float distance = Vector3.Distance(position, t.VectorPosition);
                 if (distance < minDistance && !t.Captured)
                 {
                     minDistance = distance;
@@ -204,7 +212,7 @@ namespace AGXNASK
             {
                 treasureHunting = true;
                 previousGoal = nextGoal;
-                nextGoal = nearest.Pos;
+                nextGoal = nearest.Position;
                 AgentObject.turnToFace(nextGoal.Translation);
             }
         }

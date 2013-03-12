@@ -17,6 +17,13 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+/* Sam Huffman
+ * Devon Smart
+ * Comp 565
+ * AGNXNASK 1
+ * sam.huffman.11@my.csun.edu
+ * devon.smart.962@my.csun.edu
+ */
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -133,8 +140,8 @@ namespace AGXNASK
         {
             int xPos = (int)(x / spacing);
             int zPos = (int)(z / spacing);
-            if (xPos < 0 || xPos > 511 || zPos < 0 || zPos > 511) 
-                return 0.0f;  // index valid ?
+            //if (xPos < 0 || xPos > 511 || zPos < 0 || zPos > 511) 
+            //    return 0.0f;  // index valid ?
             float height = 0.0f;
 
             int xPlusOne = xPos + 1;

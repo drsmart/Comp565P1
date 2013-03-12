@@ -17,6 +17,14 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+/* Sam Huffman
+ * Devon Smart
+ * Comp 565
+ * AGNXNASK 1
+ * sam.huffman.11@my.csun.edu
+ * devon.smart.962@my.csun.edu
+ */
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -104,12 +112,15 @@ namespace AGXNASK
         protected int draws, updates;
         protected const string MODELPREFIX = "Models/";
         protected const string TEXTUREPREFIX = "Textures/";
-        Song song;
-        Texture2D bgTexture;
-        private List<Treasure> treasures = new List<Treasure>();
+        
+        //Song for background music
+        protected Song song;
+        //Texture2D for background night sky texture
+        protected Texture2D bgTexture;
+        //List of treasures on the map
+        protected List<Treasure> treasures = new List<Treasure>();
 
-        public Stage()
-            : base()
+        public Stage() : base()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
@@ -417,16 +428,19 @@ namespace AGXNASK
                new Vector3(400 * spacing, terrain.surfaceHeight(400, 400), 400 * spacing),
                new Vector3(0, 1, 0), 0.0f, MODELPREFIX + "magentaAvatarV3");  // facing +Z
             Components.Add(npAgent);
-            //marker = Content.Load<Model>("markerV3");
-            MediaPlayer.Play(song);
 
+            //Play background music
+            MediaPlayer.Play(song);
+            MediaPlayer.IsRepeating = true;
+
+            //Create treasures and add to treasure list and drawable components list
             Treasure t1 = new Treasure(this, "treasure1", MODELPREFIX + "treasure_chest_closed");
             Vector3 position = new Vector3(296 * spacing, terrain.surfaceHeight(296 * spacing, 451 * spacing), 451 * spacing);
 
             Components.Add(t1);
             t1.IsCollidable = true;
             t1.addObject(position, new Vector3(0, 1, 0), 0.0f);
-            t1.Position = position;
+            t1.VectorPosition = position;
             treasures.Add(t1);
 
             t1 = new Treasure(this, "treasure2", MODELPREFIX + "treasure_chest_closed");
@@ -434,7 +448,7 @@ namespace AGXNASK
             Components.Add(t1);
             t1.IsCollidable = true;
             t1.addObject(position, new Vector3(0, 1, 0), 0.0f);
-            t1.Position = position;
+            t1.VectorPosition = position;
             treasures.Add(t1);
 
             t1 = new Treasure(this, "treasure3", MODELPREFIX + "treasure_chest_closed");
@@ -442,7 +456,7 @@ namespace AGXNASK
             Components.Add(t1);
             t1.IsCollidable = true;
             t1.addObject(position, new Vector3(0, 1, 0), 0.0f);
-            t1.Position = position;
+            t1.VectorPosition = position;
             treasures.Add(t1);
 
             t1 = new Treasure(this, "treasure3", MODELPREFIX + "treasure_chest_closed");
@@ -450,10 +464,10 @@ namespace AGXNASK
             Components.Add(t1);
             t1.IsCollidable = true;
             t1.addObject(position, new Vector3(0, 1, 0), 0.0f);
-            t1.Position = position;
+            t1.VectorPosition = position;
             treasures.Add(t1);
 
-            //Give the npAgent a list of the treasures
+            //Give the npAgent and player a list of the treasures
             npAgent.Treasures = treasures;
             player.Treasures = treasures;
         }

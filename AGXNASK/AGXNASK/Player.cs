@@ -17,6 +17,14 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+/* Sam Huffman
+ * Devon Smart
+ * Comp 565
+ * AGNXNASK 1
+ * sam.huffman.11@my.csun.edu
+ * devon.smart.962@my.csun.edu
+ */
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -133,7 +141,7 @@ namespace AGXNASK
             foreach (Treasure t in treasures)
             {
                 Vector3 pos = new Vector3(AgentObject.Translation.X, AgentObject.Translation.Y, AgentObject.Translation.Z);
-                float playerDistance = Vector3.Distance(t.Position, pos);
+                float playerDistance = Vector3.Distance(t.VectorPosition, pos);
                 if (playerDistance <= 2000 && !t.Captured)
                 {
                     t.Captured = true;

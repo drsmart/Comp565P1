@@ -1,4 +1,11 @@
-﻿using System;
+﻿/* Sam Huffman
+ * Devon Smart
+ * Comp 565
+ * AGNXNASK 1
+ * sam.huffman.11@my.csun.edu
+ * devon.smart.962@my.csun.edu
+ */
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,27 +19,28 @@ namespace AGXNASK
 {
     public class Treasure : Model3D
     {
-        private NavNode position;
-        private Boolean captured;
-
+        private NavNode position;       //NavNode with the position of the treasure
+        private Boolean captured;       //Whether the treasure is tagged or not
         public Boolean Captured
         {
             get { return captured; }
             set { captured = value; }
         }
 
-        public NavNode Pos
+        public NavNode Position
         {
             get { return position; } 
         }
 
-        public Vector3 Position
+        //Vector3 position of the treasure
+        public Vector3 VectorPosition
         {
             get { return position.Translation; }
             set { position.Translation = value; }
         }
-        private Model closed;
-        private Model open;
+      
+        private Model closed;       //closed treasure chest model
+        private Model open;         //open treasure chest model
         private const string opendModel = "Models/treasure_chest";
 
         public Treasure(Stage stage, string name, string file)
@@ -46,12 +54,15 @@ namespace AGXNASK
 
         public override void Update(GameTime gameTime)
         {
-            KeyboardState k = Keyboard.GetState();
+            
+            //Used to test if the treasure chest would switch from close to open
+            //KeyboardState k = Keyboard.GetState();
+            //if (k.IsKeyDown(Keys.Z))
+            //{
+            //    captured = !captured;
+            //}
 
-            if (k.IsKeyDown(Keys.Z))
-            {
-                captured = !captured;
-            }
+            //Switch model to open chest if treasure is tagged
             if (captured)
                 model = open;
             base.Update(gameTime);
