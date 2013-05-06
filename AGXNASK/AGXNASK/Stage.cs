@@ -20,7 +20,7 @@
 /* Sam Huffman
  * Devon Smart
  * Comp 565
- * AGNXNASK 1
+ * AGNXNASK 2
  * sam.huffman.11@my.csun.edu
  * devon.smart.962@my.csun.edu
  */
@@ -456,8 +456,15 @@ namespace AGXNASK
             t1.VectorPosition = position;
             treasures.Add(t1);
 
-            t1 = new Treasure(this, "treasure3", MODELPREFIX + "treasure_chest_closed");
+            t1 = new Treasure(this, "treasure4", MODELPREFIX + "treasure_chest_closed");
             position = new Vector3(450 * spacing, terrain.surfaceHeight(450 * spacing, 400 * spacing), 400 * spacing);
+            Components.Add(t1);
+            t1.addObject(position, new Vector3(0, 1, 0), 0.0f);
+            t1.VectorPosition = position;
+            treasures.Add(t1);
+
+            t1 = new Treasure(this, "treasure5", MODELPREFIX + "treasure_chest_closed");
+            position = new Vector3(390 * spacing, terrain.surfaceHeight(390 * spacing, 490 * spacing), 490 * spacing);
             Components.Add(t1);
             t1.addObject(position, new Vector3(0, 1, 0), 0.0f);
             t1.VectorPosition = position;
