@@ -61,6 +61,7 @@ namespace AGXNASK
         private Boolean treasureHunting;
         private KeyboardState oldKeyboardState;
         private Treasure nearest;
+        private const int TREASURE_DETECTION_RADIUS = 4000;
         
         /// <summary>
         /// Create a NPC. 
@@ -98,20 +99,21 @@ namespace AGXNASK
             int spacing = stage.Spacing;
             // make a simple path, show how to set the type of the NavNode outside of construction.
             NavNode n;
-            n = new NavNode(new Vector3(505 * spacing, stage.Terrain.surfaceHeight(505, 505), 505 * spacing));
+            n = new NavNode(new Vector3(430 * spacing, stage.Terrain.surfaceHeight(430, 400), 400 * spacing));
             n.Navigatable = NavNode.NavNodeEnum.PATH;
             aPath.Add(n);
-            n = new NavNode(new Vector3(500 * spacing, stage.Terrain.surfaceHeight(500, 500), 500 * spacing));
+            n = new NavNode(new Vector3(430 * spacing, stage.Terrain.surfaceHeight(430, 320), 320 * spacing));
             n.Navigatable = NavNode.NavNodeEnum.VERTEX;
             aPath.Add(n);
-            aPath.Add(new NavNode(new Vector3(495 * spacing, stage.Terrain.surfaceHeight(495, 495), 495 * spacing),
+            aPath.Add(new NavNode(new Vector3(334 * spacing, stage.Terrain.surfaceHeight(334, 369), 369 * spacing),
                      NavNode.NavNodeEnum.WAYPOINT));
-            aPath.Add(new NavNode(new Vector3(495 * spacing, stage.Terrain.surfaceHeight(495, 505), 505 * spacing),
+            aPath.Add(new NavNode(new Vector3(316 * spacing, stage.Terrain.surfaceHeight(316, 451), 451 * spacing),
                      NavNode.NavNodeEnum.WAYPOINT));
-            // /* comment out rest of path to shorten for tests of NavNode.PathType values
-            aPath.Add(new NavNode(new Vector3(100 * spacing, stage.Terrain.surfaceHeight(100, 500), 500 * spacing),
+             // comment out rest of path to shorten for tests of NavNode.PathType values
+            aPath.Add(new NavNode(new Vector3(390 * spacing, stage.Terrain.surfaceHeight(390, 470), 470 * spacing),
                      NavNode.NavNodeEnum.WAYPOINT));
-            aPath.Add(new NavNode(new Vector3(100 * spacing, stage.Terrain.surfaceHeight(100, 100), 100 * spacing),
+            aPath.Add(n);
+            /*aPath.Add(new NavNode(new Vector3(100 * spacing, stage.Terrain.surfaceHeight(100, 100), 100 * spacing),
                      NavNode.NavNodeEnum.WAYPOINT));
             aPath.Add(new NavNode(new Vector3(500 * spacing, stage.Terrain.surfaceHeight(500, 100), 100 * spacing),
                      NavNode.NavNodeEnum.WAYPOINT));
@@ -124,7 +126,7 @@ namespace AGXNASK
                      NavNode.NavNodeEnum.WAYPOINT));
             aPath.Add(new NavNode(new Vector3(105 * spacing, stage.Terrain.surfaceHeight(105, 495), 495 * spacing),
                      NavNode.NavNodeEnum.WAYPOINT));
-            // */ shorter path tests
+             */ //shorter path tests
             return (aPath);
         }
 
