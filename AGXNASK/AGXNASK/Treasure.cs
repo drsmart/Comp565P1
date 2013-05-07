@@ -68,5 +68,10 @@ namespace AGXNASK
                 model = open;
             base.Update(gameTime);
         }
+
+        public override string ToString()
+        {
+            return name;
+        }
     }
 }

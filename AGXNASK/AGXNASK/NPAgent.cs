@@ -135,7 +135,8 @@ namespace AGXNASK
                   agentObject.Forward.X, agentObject.Forward.Y, agentObject.Forward.Z));
             stage.setInfo(16,
                string.Format("nextGoal:  ({0:f0},{1:f0},{2:f0})", nextGoal.Translation.X, nextGoal.Translation.Y, nextGoal.Translation.Z));
-            
+            if(!treasureHunting)
+                ScanForTreasures();
             // See if at or close to nextGoal, distance measured in the flat XZ plane
             float distance = Vector3.Distance(
                new Vector3(nextGoal.Translation.X, 0, nextGoal.Translation.Z),
@@ -145,8 +146,8 @@ namespace AGXNASK
             {
                 GoToTreasure();
             }
-            ScanForTreasures();
-            if (distance <= snapDistance || (distance <= 2000 && treasureHunting))
+          
+            if (distance <= snapDistance || (distance <= TAG_DISTANCE && treasureHunting))
             {
                 stage.setInfo(17, string.Format("distance to goal = {0,5:f2}", distance));
                 // snap to nextGoal and orient toward the new nextGoal 
@@ -158,6 +159,7 @@ namespace AGXNASK
                     {
                         nearest.Captured = true;
                         TreasureCount++;
+                        stage.setInfo(18, "Found " + nearest.ToString());
                     }
                 }
                 else
@@ -217,21 +219,32 @@ namespace AGXNASK
                 AgentObject.turnToFace(nextGoal.Translation);
             }
         }
-
+        
         /// <summary>
         /// Scans for treasures within the treasure detection radius
         /// </summary>
-        /// <returns></returns>
-        private Treasure ScanForTreasures()
+        private void ScanForTreasures()
         {
             Vector3 position = new Vector3(AgentObject.Translation.X, AgentObject.Translation.Y, AgentObject.Translation.Z);
+            Treasure target = null;
+
             foreach (Treasure t in treasures)
             {
                 double distance = Vector3.Distance(t.VectorPosition, position);
                 if (!t.Captured && distance <= TREASURE_DETECTION_RADIUS)
-                    return t;
+                {
+                    treasureHunting = true;
+                    nearest = t;
+                    break;
+                }
             }
-            return null;
+
+            if (treasureHunting && nearest != null)
+            {
+                previousGoal = nextGoal;
+                nextGoal = nearest.Position;
+                AgentObject.turnToFace(nextGoal.Translation);
+            }
         }
     }
 }
