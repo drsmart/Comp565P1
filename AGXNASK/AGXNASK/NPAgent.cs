@@ -82,7 +82,7 @@ namespace AGXNASK
             //IsCollidable = false;  // have NPAgent test collisions
             
             // path is built to work on specific terrain
-            path = new Path(stage, makePath(), Path.PathType.REVERSE); // continuous search path
+            path = new Path(stage, makePath(), Path.PathType.SINGLE); // continuous search path
             stage.Components.Add(path);
             nextGoal = path.NextNode;  // get first path goal
             agentObject.turnToFace(nextGoal.Translation);  // orient towards the first path goal
@@ -102,31 +102,21 @@ namespace AGXNASK
             n = new NavNode(new Vector3(430 * spacing, stage.Terrain.surfaceHeight(430, 400), 400 * spacing));
             n.Navigatable = NavNode.NavNodeEnum.PATH;
             aPath.Add(n);
+            
             n = new NavNode(new Vector3(430 * spacing, stage.Terrain.surfaceHeight(430, 320), 320 * spacing));
             n.Navigatable = NavNode.NavNodeEnum.VERTEX;
             aPath.Add(n);
+            
             aPath.Add(new NavNode(new Vector3(334 * spacing, stage.Terrain.surfaceHeight(334, 369), 369 * spacing),
                      NavNode.NavNodeEnum.WAYPOINT));
+            
             aPath.Add(new NavNode(new Vector3(316 * spacing, stage.Terrain.surfaceHeight(316, 451), 451 * spacing),
                      NavNode.NavNodeEnum.WAYPOINT));
              // comment out rest of path to shorten for tests of NavNode.PathType values
+            
             aPath.Add(new NavNode(new Vector3(390 * spacing, stage.Terrain.surfaceHeight(390, 470), 470 * spacing),
                      NavNode.NavNodeEnum.WAYPOINT));
-            aPath.Add(n);
-            /*aPath.Add(new NavNode(new Vector3(100 * spacing, stage.Terrain.surfaceHeight(100, 100), 100 * spacing),
-                     NavNode.NavNodeEnum.WAYPOINT));
-            aPath.Add(new NavNode(new Vector3(500 * spacing, stage.Terrain.surfaceHeight(500, 100), 100 * spacing),
-                     NavNode.NavNodeEnum.WAYPOINT));
-            n = new NavNode(new Vector3(500 * spacing, stage.Terrain.surfaceHeight(500, 495), 495 * spacing));
-            n.Navigatable = NavNode.NavNodeEnum.A_STAR;
-            aPath.Add(n);
-            aPath.Add(new NavNode(new Vector3(495 * spacing, stage.Terrain.surfaceHeight(495, 105), 105 * spacing),
-                     NavNode.NavNodeEnum.WAYPOINT));
-            aPath.Add(new NavNode(new Vector3(105 * spacing, stage.Terrain.surfaceHeight(105, 105), 105 * spacing),
-                     NavNode.NavNodeEnum.WAYPOINT));
-            aPath.Add(new NavNode(new Vector3(105 * spacing, stage.Terrain.surfaceHeight(105, 495), 495 * spacing),
-                     NavNode.NavNodeEnum.WAYPOINT));
-             */ //shorter path tests
+         
             return (aPath);
         }
 
