@@ -61,7 +61,8 @@ namespace AGXNASK
         private Boolean treasureHunting;
         private KeyboardState oldKeyboardState;
         private Treasure nearest;
-        private const int TREASURE_DETECTION_RADIUS = 4000;
+        private const double TREASURE_DETECTION_RADIUS = 4000;
+        private const double TAG_DISTANCE = 500;
         
         /// <summary>
         /// Create a NPC. 
@@ -144,7 +145,7 @@ namespace AGXNASK
             {
                 GoToTreasure();
             }
-            
+            ScanForTreasures();
             if (distance <= snapDistance || (distance <= 2000 && treasureHunting))
             {
                 stage.setInfo(17, string.Format("distance to goal = {0,5:f2}", distance));
@@ -215,6 +216,22 @@ namespace AGXNASK
                 nextGoal = nearest.Position;
                 AgentObject.turnToFace(nextGoal.Translation);
             }
+        }
+
+        /// <summary>
+        /// Scans for treasures within the treasure detection radius
+        /// </summary>
+        /// <returns></returns>
+        private Treasure ScanForTreasures()
+        {
+            Vector3 position = new Vector3(AgentObject.Translation.X, AgentObject.Translation.Y, AgentObject.Translation.Z);
+            foreach (Treasure t in treasures)
+            {
+                double distance = Vector3.Distance(t.VectorPosition, position);
+                if (!t.Captured && distance <= TREASURE_DETECTION_RADIUS)
+                    return t;
+            }
+            return null;
         }
     }
 }
