@@ -72,7 +72,8 @@ namespace AGXNASK
         // override virtual DrawableGameComponent methods                   
         public override void Update(GameTime gameTime)
         {
-            foreach (Object3D obj in instance) obj.updateBoundingSphere();
+            foreach (Object3D obj in instance) 
+                obj.updateBoundingSphere();
             base.Update(gameTime);
         }
 

@@ -61,9 +61,15 @@ namespace AGXNASK
         private Boolean treasureHunting;
         private KeyboardState oldKeyboardState;
         private Treasure nearest;
+
         private const double TREASURE_DETECTION_RADIUS = 4000;
         private const double TAG_DISTANCE = 500;
-        
+
+        private MovableModel3D leftSensor;
+        private MovableModel3D rightSensor;
+
+        private Sensor sensors;
+
         /// <summary>
         /// Create a NPC. 
         /// AGXNASK distribution has npAgent move following a Path.
@@ -75,19 +81,24 @@ namespace AGXNASK
         /// <param name="radians"> initial rotation</param>
         /// <param name="meshFile"> Direct X *.x Model in Contents directory </param>
 
-        public NPAgent(Stage theStage, string label, Vector3 pos, Vector3 orientAxis, float radians, string meshFile) : base(theStage, label, pos, orientAxis, radians, meshFile)
+        public NPAgent(Stage theStage, string label, Vector3 pos, Vector3 orientAxis, float radians, string meshFile)
+            : base(theStage, label, pos, orientAxis, radians, meshFile)
         {  // change names for on-screen display of current camera
             first.Name = "npFirst";
             follow.Name = "npFollow";
             above.Name = "npAbove";
-            //IsCollidable = false;  // have NPAgent test collisions
-            
+            IsCollidable = true;  // have NPAgent test collisions
+
             // path is built to work on specific terrain
             path = new Path(stage, makePath(), Path.PathType.SINGLE); // continuous search path
             stage.Components.Add(path);
             nextGoal = path.NextNode;  // get first path goal
             agentObject.turnToFace(nextGoal.Translation);  // orient towards the first path goal
             treasureHunting = false;
+
+            sensors = new Sensor(stage, "Sensors", "Models/sensor", this);
+            leftSensor = new MovableModel3D(stage, "leftSensor", "Models/redAvatarV3");
+            leftSensor.addObject(AgentObject.Translation , Vector3.UnitY, 0);
         }
 
         /// <summary>
@@ -103,21 +114,20 @@ namespace AGXNASK
             n = new NavNode(new Vector3(430 * spacing, stage.Terrain.surfaceHeight(430, 400), 400 * spacing));
             n.Navigatable = NavNode.NavNodeEnum.PATH;
             aPath.Add(n);
-            
+
             n = new NavNode(new Vector3(430 * spacing, stage.Terrain.surfaceHeight(430, 320), 320 * spacing));
             n.Navigatable = NavNode.NavNodeEnum.VERTEX;
             aPath.Add(n);
-            
+
             aPath.Add(new NavNode(new Vector3(334 * spacing, stage.Terrain.surfaceHeight(334, 369), 369 * spacing),
                      NavNode.NavNodeEnum.WAYPOINT));
-            
+
             aPath.Add(new NavNode(new Vector3(316 * spacing, stage.Terrain.surfaceHeight(316, 451), 451 * spacing),
                      NavNode.NavNodeEnum.WAYPOINT));
-             // comment out rest of path to shorten for tests of NavNode.PathType values
-            
+
             aPath.Add(new NavNode(new Vector3(390 * spacing, stage.Terrain.surfaceHeight(390, 470), 470 * spacing),
                      NavNode.NavNodeEnum.WAYPOINT));
-         
+
             return (aPath);
         }
 
@@ -135,7 +145,7 @@ namespace AGXNASK
                   agentObject.Forward.X, agentObject.Forward.Y, agentObject.Forward.Z));
             stage.setInfo(16,
                string.Format("nextGoal:  ({0:f0},{1:f0},{2:f0})", nextGoal.Translation.X, nextGoal.Translation.Y, nextGoal.Translation.Z));
-            if(!treasureHunting)
+            if (!treasureHunting)
                 ScanForTreasures();
             // See if at or close to nextGoal, distance measured in the flat XZ plane
             float distance = Vector3.Distance(
@@ -146,7 +156,7 @@ namespace AGXNASK
             {
                 GoToTreasure();
             }
-          
+
             if (distance <= snapDistance || (distance <= TAG_DISTANCE && treasureHunting))
             {
                 stage.setInfo(17, string.Format("distance to goal = {0,5:f2}", distance));
@@ -175,7 +185,15 @@ namespace AGXNASK
                     stage.setInfo(18, string.Format("turnToFace count = {0}", turnCount));
                 }
             }
+
+            sensors.Update(gameTime);
             base.Update(gameTime);
+        }
+
+        public override void Draw(GameTime gameTime)
+        {
+            sensors.Draw(gameTime);
+            base.Draw(gameTime);
         }
 
         /// <summary>
@@ -219,14 +237,13 @@ namespace AGXNASK
                 AgentObject.turnToFace(nextGoal.Translation);
             }
         }
-        
+
         /// <summary>
         /// Scans for treasures within the treasure detection radius
         /// </summary>
         private void ScanForTreasures()
         {
             Vector3 position = new Vector3(AgentObject.Translation.X, AgentObject.Translation.Y, AgentObject.Translation.Z);
-            Treasure target = null;
 
             foreach (Treasure t in treasures)
             {
@@ -245,6 +262,11 @@ namespace AGXNASK
                 nextGoal = nearest.Position;
                 AgentObject.turnToFace(nextGoal.Translation);
             }
+        }
+
+        private void DetectObjects()
+        {
+
         }
     }
 }

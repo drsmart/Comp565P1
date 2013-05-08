@@ -427,6 +427,7 @@ namespace AGXNASK
             npAgent = new NPAgent(this, "Evader",
                new Vector3(400 * spacing, terrain.surfaceHeight(400, 400), 400 * spacing),
                new Vector3(0, 1, 0), 0.0f, MODELPREFIX + "magentaAvatarV3");  // facing +Z
+
             Components.Add(npAgent);
 
             //Play background music

@@ -51,7 +51,7 @@ namespace AGXNASK
             : base(theStage, label, meshFile)
         {
             //Turned off collision for the maze
-            isCollidable = false;
+            isCollidable = true;
             // "just another brick in the wall", Pink Floyd
             int spacing = stage.Terrain.Spacing;
             Terrain terrain = stage.Terrain;

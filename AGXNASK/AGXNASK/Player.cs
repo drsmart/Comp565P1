@@ -56,6 +56,8 @@ namespace AGXNASK
         private float angle;
         private Matrix initialOrientation;
 
+        private MovableModel3D leftSensor;
+
         public Player(Stage theStage, string label, Vector3 pos, Vector3 orientAxis, float radians, string meshFile)
             : base(theStage, label, pos, orientAxis, radians, meshFile)
         {  // change names for on-screen display of current camera

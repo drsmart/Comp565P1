@@ -226,7 +226,7 @@ namespace AGXNASK
         /// </summary>
         /// <param name="position"> position Object3D wants to move to </param>
         /// <returns> true when there is a collision </returns>
-        private bool collision(Vector3 position)
+        public bool collision(Vector3 position)
         {
             foreach (Object3D obj3d in stage.Collidable)
                 if (!this.Equals(obj3d) &&
@@ -281,11 +281,11 @@ namespace AGXNASK
             else if (aCosDot == Math.PI) radian = Math.PI;
             else if (axis.X + axis.Y + axis.Z >= 0) radian = (float)(2 * Math.PI - aCosDot);
             else radian = -aCosDot;
-            stage.setInfo(19, string.Format("radian to rotate = {0,5:f2}, axis for rotation ({1,5:f2}, {2,5:f2}, {3,5:f2})",
-               radian, axis.X, axis.Y, axis.Z));
+            //stage.setInfo(19, string.Format("radian to rotate = {0,5:f2}, axis for rotation ({1,5:f2}, {2,5:f2}, {3,5:f2})",
+               //radian, axis.X, axis.Y, axis.Z));
             if (Double.IsNaN(radian))
             {  // validity check, this should not happen
-                stage.setInfo(19, "radian NaN");
+                //stage.setInfo(19, "radian NaN");
                 return;
             }
             else
@@ -334,6 +334,5 @@ namespace AGXNASK
             objectBoundingSphereWorld = Matrix.CreateScale(objectBoundingSphereRadius);
             objectBoundingSphereWorld *= Matrix.CreateTranslation(objectBoundingSphereCenter);
         }
-
     }
 }
