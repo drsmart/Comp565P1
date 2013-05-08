@@ -66,6 +66,13 @@ namespace AGXNASK
         private const double TAG_DISTANCE = 500;
 
         private Sensor sensors;
+        private Boolean onDetour;
+
+        public Boolean OnDetour
+        {
+            get { return onDetour; }
+            set { onDetour = value; }
+        }
 
         /// <summary>
         /// Create a NPC. 

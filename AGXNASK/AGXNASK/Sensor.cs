@@ -28,9 +28,9 @@ namespace AGXNASK
             set { leftWall = value; }
         }
 
-        Agent agent;
+        NPAgent agent;
 
-        public Sensor(Stage theStage, string label, string meshFile, Agent agent)
+        public Sensor(Stage theStage, string label, string meshFile, NPAgent agent)
             : base(theStage, label, meshFile)
         {
             this.agent = agent;
@@ -82,7 +82,9 @@ namespace AGXNASK
                 agent.AgentObject.Yaw = -(float)Math.PI / 100;
             }
             else
+            {
                 agent.AgentObject.Yaw = 0;
+            }
             
         }
     }
