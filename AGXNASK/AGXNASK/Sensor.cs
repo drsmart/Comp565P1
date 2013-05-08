@@ -12,6 +12,22 @@ namespace AGXNASK
         Object3D rightSensor;
         private static Matrix LEFT_TRANSLATION =  Matrix.CreateTranslation(new Vector3(-100, 0, -200));
         private static Matrix RIGHT_TRANSLATION = Matrix.CreateTranslation(new Vector3(100, 0, -200));
+        
+        private Boolean rightWall;
+        private Boolean leftWall;
+
+        public Boolean RightWall
+        {
+            get { return rightWall; }
+            set { rightWall = value; }
+        }
+
+        public Boolean LeftWall
+        {
+            get { return leftWall; }
+            set { leftWall = value; }
+        }
+
         Agent agent;
 
         public Sensor(Stage theStage, string label, string meshFile, Agent agent)
@@ -23,6 +39,10 @@ namespace AGXNASK
             addObject(agent.AgentObject.Translation, Vector3.UnitY, 0);
             leftSensor = instance.ElementAt<Object3D>(0);
             rightSensor = instance.ElementAt<Object3D>(1);
+
+            RightWall = false;
+            LeftWall = false;
+
             isCollidable = true;
         }
 
@@ -48,10 +68,14 @@ namespace AGXNASK
         {
             if (leftSensor.collision(leftSensor.Translation))
             {
+                RightWall = true;
+                agent.AgentObject.Yaw = -90;
                 stage.setInfo(19, "Left Collision");
             }
             if (rightSensor.collision(rightSensor.Translation))
             {
+                LeftWall = true;
+                agent.AgentObject.Yaw = 90;
                 stage.setInfo(20, "Right Collision");
             }
         }
