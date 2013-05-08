@@ -69,15 +69,22 @@ namespace AGXNASK
             if (leftSensor.collision(leftSensor.Translation))
             {
                 RightWall = true;
-                agent.AgentObject.Yaw = -90;
+                agent.AgentObject.Yaw = -(float)Math.PI / 100;
                 stage.setInfo(19, "Left Collision");
+            }
+            else
+            {
+                agent.AgentObject.Yaw = 0;
+                RightWall = false;
             }
             if (rightSensor.collision(rightSensor.Translation))
             {
                 LeftWall = true;
-                agent.AgentObject.Yaw = 90;
+                //agent.AgentObject.Yaw = 90;
                 stage.setInfo(20, "Right Collision");
             }
+            else
+                LeftWall = false;
         }
     }
 }
