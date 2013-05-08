@@ -66,25 +66,24 @@ namespace AGXNASK
 
         public void CheckCollision()
         {
-            if (leftSensor.collision(leftSensor.Translation))
+            LeftWall = leftSensor.collision(leftSensor.Translation);
+            RightWall = rightSensor.collision(rightSensor.Translation);
+
+            if (RightWall && LeftWall)
             {
-                RightWall = true;
+                agent.AgentObject.Yaw = (float)Math.PI / 4;
+            }
+            if (RightWall)
+            {
+                agent.AgentObject.Yaw = (float)Math.PI / 100;
+            }
+            else if (LeftWall)
+            {
                 agent.AgentObject.Yaw = -(float)Math.PI / 100;
-                stage.setInfo(19, "Left Collision");
             }
             else
-            {
                 agent.AgentObject.Yaw = 0;
-                RightWall = false;
-            }
-            if (rightSensor.collision(rightSensor.Translation))
-            {
-                LeftWall = true;
-                //agent.AgentObject.Yaw = 90;
-                stage.setInfo(20, "Right Collision");
-            }
-            else
-                LeftWall = false;
+            
         }
     }
 }

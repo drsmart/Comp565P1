@@ -65,9 +65,6 @@ namespace AGXNASK
         private const double TREASURE_DETECTION_RADIUS = 4000;
         private const double TAG_DISTANCE = 500;
 
-        private MovableModel3D leftSensor;
-        private MovableModel3D rightSensor;
-
         private Sensor sensors;
 
         /// <summary>
@@ -83,7 +80,8 @@ namespace AGXNASK
 
         public NPAgent(Stage theStage, string label, Vector3 pos, Vector3 orientAxis, float radians, string meshFile)
             : base(theStage, label, pos, orientAxis, radians, meshFile)
-        {  // change names for on-screen display of current camera
+        {  
+            // change names for on-screen display of current camera
             first.Name = "npFirst";
             follow.Name = "npFollow";
             above.Name = "npAbove";
@@ -97,8 +95,6 @@ namespace AGXNASK
             treasureHunting = false;
 
             sensors = new Sensor(stage, "Sensors", "Models/sensor", this);
-            leftSensor = new MovableModel3D(stage, "leftSensor", "Models/redAvatarV3");
-            leftSensor.addObject(AgentObject.Translation , Vector3.UnitY, 0);
         }
 
         /// <summary>
@@ -110,6 +106,10 @@ namespace AGXNASK
             List<NavNode> aPath = new List<NavNode>();
             int spacing = stage.Spacing;
             // make a simple path, show how to set the type of the NavNode outside of construction.
+
+            aPath.Add(new NavNode(new Vector3(316 * spacing, stage.Terrain.surfaceHeight(316, 451), 451 * spacing),
+                     NavNode.NavNodeEnum.WAYPOINT));
+            
             NavNode n;
             n = new NavNode(new Vector3(430 * spacing, stage.Terrain.surfaceHeight(430, 400), 400 * spacing));
             n.Navigatable = NavNode.NavNodeEnum.PATH;
@@ -122,8 +122,7 @@ namespace AGXNASK
             aPath.Add(new NavNode(new Vector3(334 * spacing, stage.Terrain.surfaceHeight(334, 369), 369 * spacing),
                      NavNode.NavNodeEnum.WAYPOINT));
 
-            aPath.Add(new NavNode(new Vector3(316 * spacing, stage.Terrain.surfaceHeight(316, 451), 451 * spacing),
-                     NavNode.NavNodeEnum.WAYPOINT));
+            
 
             aPath.Add(new NavNode(new Vector3(390 * spacing, stage.Terrain.surfaceHeight(390, 470), 470 * spacing),
                      NavNode.NavNodeEnum.WAYPOINT));
