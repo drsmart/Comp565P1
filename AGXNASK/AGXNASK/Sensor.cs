@@ -22,6 +22,8 @@ namespace AGXNASK
         private Boolean right;
         private Boolean left;
 
+        private Boolean haveCollided;
+
         public Boolean RightWall
         {
             get { return rightFront; }
@@ -32,6 +34,12 @@ namespace AGXNASK
         {
             get { return leftFront; }
             set { leftFront = value; }
+        }
+
+        public Boolean HaveCollided
+        {
+            get { return haveCollided; }
+            set { haveCollided = value; }
         }
 
         NPAgent agent;
@@ -51,7 +59,7 @@ namespace AGXNASK
 
             RightWall = false;
             LeftWall = false;
-
+            HaveCollided = false;
             isCollidable = true;
         }
 
@@ -84,8 +92,8 @@ namespace AGXNASK
             rightFront = frontRightSensor.collision(frontRightSensor.Translation);
             left = leftSensor.collision(leftSensor.Translation);
             right = rightSensor.collision(rightSensor.Translation);
-
-
+            HaveCollided = (left || right || leftFront || rightFront || HaveCollided) ? true: false;
+           
             if (rightFront && leftFront)
             {
                 if (left && right)
@@ -123,8 +131,14 @@ namespace AGXNASK
             }
             else
             {
-                agent.OnDetour = true;
-                agent.AgentObject.Yaw = 0;
+                if (HaveCollided)
+                {
+                    agent.OnDetour = true;
+                    agent.AgentObject.Yaw = 0;
+                }
+                else
+                {
+                }
             }
             
         }

@@ -92,7 +92,7 @@ namespace AGXNASK
 
         public NPAgent(Stage theStage, string label, Vector3 pos, Vector3 orientAxis, float radians, string meshFile)
             : base(theStage, label, pos, orientAxis, radians, meshFile)
-        {  
+        {
             // change names for on-screen display of current camera
             first.Name = "npFirst";
             follow.Name = "npFollow";
@@ -124,7 +124,7 @@ namespace AGXNASK
 
             aPath.Add(new NavNode(new Vector3(316 * spacing, stage.Terrain.surfaceHeight(316, 451), 451 * spacing),
                      NavNode.NavNodeEnum.WAYPOINT));
-            
+
             NavNode n;
             n = new NavNode(new Vector3(430 * spacing, stage.Terrain.surfaceHeight(430, 400), 400 * spacing));
             n.Navigatable = NavNode.NavNodeEnum.PATH;
@@ -137,7 +137,7 @@ namespace AGXNASK
             aPath.Add(new NavNode(new Vector3(334 * spacing, stage.Terrain.surfaceHeight(334, 369), 369 * spacing),
                      NavNode.NavNodeEnum.WAYPOINT));
 
-            
+
 
             aPath.Add(new NavNode(new Vector3(390 * spacing, stage.Terrain.surfaceHeight(390, 470), 470 * spacing),
                      NavNode.NavNodeEnum.WAYPOINT));
@@ -165,7 +165,7 @@ namespace AGXNASK
             float distance = Vector3.Distance(
                new Vector3(nextGoal.Translation.X, 0, nextGoal.Translation.Z),
                new Vector3(agentObject.Translation.X, 0, agentObject.Translation.Z));
-            
+
             if (OnDetour)
             {
                 if (positionSaved)
@@ -178,8 +178,8 @@ namespace AGXNASK
                         positionSaved = false;
                         detourDistance = 0;
                         collisionPosition = Vector3.Zero;
-                       agentObject.turnSlightly(nextGoal.Translation);
-                       realign = true;
+                        agentObject.turnSlightly(nextGoal.Translation);
+                        realign = true;
                     }
                 }
                 else
@@ -214,7 +214,7 @@ namespace AGXNASK
                 {
                     nextGoal = path.NextNode;
                 }
-                agentObject.turnSlightly(nextGoal.Translation);
+                agentObject.turnToFace(nextGoal.Translation);
                 if (path.Done)
                     stage.setInfo(18, "path traversal is done");
                 else
@@ -298,7 +298,7 @@ namespace AGXNASK
             {
                 previousGoal = nextGoal;
                 nextGoal = nearest.Position;
-                AgentObject.turnSlightly(nextGoal.Translation);
+                AgentObject.turnToFace(nextGoal.Translation);
             }
         }
 
