@@ -67,7 +67,6 @@ namespace AGXNASK
         private Vector3 objectBoundingSphereCenter;
         private float objectBoundingSphereRadius = 0.0f;
         private Matrix objectBoundingSphereWorld;
-        private float angleToTarget;
 
         // constructors
 
@@ -94,7 +93,6 @@ namespace AGXNASK
             orientation *= Matrix.CreateFromAxisAngle(orientAxis, radians);
             orientation *= Matrix.CreateTranslation(position);
             scaleObjectBoundingSphere();
-            angleToTarget = 0;
         }
 
         /// <summary>
@@ -238,7 +236,6 @@ namespace AGXNASK
             return false;
         }
 
-
         private void scaleObjectBoundingSphere()
         {
             if (scales.X >= scales.Y && scales.X >= scales.Z)
@@ -248,41 +245,6 @@ namespace AGXNASK
             else objectBoundingSphereRadius = model.BoundingSphereRadius * scales.Z;
         }
 
-        public float Angle(Vector3 target)
-        {
-            Vector3 axis, toTarget, toObj;
-            double radian, aCosDot;
-            // put both vector on the XZ plane of Y == 0
-            toObj = new Vector3(Translation.X, 0, Translation.Z);
-            target = new Vector3(target.X, 0, target.Z);
-            toTarget = toObj - target; // new 
-            // normalize
-            toObj.Normalize();
-            toTarget.Normalize();
-            // make sure vectors are not co-linear by a little nudge in X and Z
-            if (toTarget == toObj || Vector3.Negate(toTarget) == toObj)
-            {
-                toTarget.X += 0.05f;
-                toTarget.Z += 0.05f;
-                toTarget.Normalize();
-            }
-            // determine axis for rotation
-            axis = Vector3.Cross(toTarget, Backward);   // order of arguments mater
-            axis.Normalize();
-            // get cosine of rotation
-            aCosDot = Math.Acos(Vector3.Dot(toTarget, Backward));  //Backward
-            // test and adjust direction of rotation into radians
-            if (aCosDot == 0)
-                radian = Math.PI * 2;
-            else if (aCosDot == Math.PI)
-                radian = Math.PI;
-            else if (axis.X + axis.Y + axis.Z >= 0)
-                radian = (float)(2 * Math.PI - aCosDot);
-            else
-                radian = -aCosDot;
-
-            return (float)radian;
-        }
         /// <summary>
         /// Update the object's orientation matrix so that it is rotated to 
         /// look at target. AGXNASK is terrain based -- so all turn are wrt flat XZ plane.
@@ -320,11 +282,12 @@ namespace AGXNASK
             else if (axis.X + axis.Y + axis.Z >= 0)
                 radian = (float)(2 * Math.PI - aCosDot);
             else radian = -aCosDot;
-            //stage.setInfo(19, string.Format("radian to rotate = {0,5:f2}, axis for rotation ({1,5:f2}, {2,5:f2}, {3,5:f2})",
-            //radian, axis.X, axis.Y, axis.Z));
+
+            stage.setInfo(19, string.Format("radian to rotate = {0,5:f2}, axis for rotation ({1,5:f2}, {2,5:f2}, {3,5:f2})", radian, axis.X, axis.Y, axis.Z));
+
             if (Double.IsNaN(radian))
-            {  // validity check, this should not happen
-                //stage.setInfo(19, "radian NaN");
+            {
+                stage.setInfo(19, "radian NaN");
                 return;
             }
             else
@@ -350,44 +313,34 @@ namespace AGXNASK
             // normalize
             toObj.Normalize();
             toTarget.Normalize();
-            // make sure vectors are not co-linear by a little nudge in X and Z
-            //if (toTarget == toObj || Vector3.Negate(toTarget) == toObj)
-            //{
-            //    toTarget.X += 0.05f;
-            //    toTarget.Z += 0.05f;
-            //    toTarget.Normalize();
-            //}
+
             // determine axis for rotation
             axis = Vector3.Cross(toTarget, Backward);   // order of arguments mater
             axis.Normalize();
             // get cosine of rotation
             aCosDot = Math.Acos(Vector3.Dot(toTarget, Backward));  //Backward
             // test and adjust direction of rotation into radians
-            if (aCosDot == 0) 
+            if (aCosDot == 0)
                 radian = Math.PI * 2;
-            else if (aCosDot == Math.PI) 
+            else if (aCosDot == Math.PI)
                 radian = Math.PI;
-            else if (axis.X + axis.Y + axis.Z >= 0) 
+            else if (axis.X + axis.Y + axis.Z >= 0)
                 radian = (float)(2 * Math.PI - aCosDot);
-            else 
+            else
                 radian = -aCosDot;
-            //stage.setInfo(19, string.Format("radian to rotate = {0,5:f2}, axis for rotation ({1,5:f2}, {2,5:f2}, {3,5:f2})",
-            //radian, axis.X, axis.Y, axis.Z));
+            stage.setInfo(19, string.Format("radian to rotate = {0,5:f2}, axis for rotation ({1,5:f2}, {2,5:f2}, {3,5:f2})",
+            radian, axis.X, axis.Y, axis.Z));
 
             if (Double.IsNaN(radian))
-            {  // validity check, this should not happen
-                //stage.setInfo(19, "radian NaN");
+            {
+                stage.setInfo(19, "radian NaN");
                 return;
             }
             else
             {
                 float angle = (float)Math.PI / 5;
-                // Vector3 objectLocation = Translation;
-                // orientation *= Matrix.CreateTranslation(-1 * objectLocation);
-                // all terrain rotations are really on Y
-                //if (radian <= Math.PI / 10) 
-                //    orientation *= Matrix.CreateFromAxisAngle(axis, (float)radian);
-                if (aCosDot < 0.005 )
+
+                if (aCosDot < 0.005)
                 { }
                 else if (radian < 0 && radian % MathHelper.TwoPi < (-1 * angle))
                     Yaw += angle;
@@ -396,15 +349,18 @@ namespace AGXNASK
                 else
                     turnToFace(target);
 
-
-                Console.WriteLine(radian);
-
-                // orientation.Up = Vector3.Up;  // correct for flipped from negative axis of rotation
-                // orientation *= Matrix.CreateTranslation(objectLocation);
                 updateMovableObject();
             }
         }
-
+        public void rotate(float radian)
+        {
+            Vector3 objectLocation = Translation;
+            orientation *= Matrix.CreateTranslation(-1 * objectLocation);
+            // all terrain rotations are really on Y
+            orientation *= Matrix.CreateRotationY(radian);
+            orientation.Up = Vector3.Up;  // correct for flipped from negative axis of rotation
+            orientation *= Matrix.CreateTranslation(objectLocation);
+        }
         /// <summary>
         /// The location is first saved and the model is translated
         /// to the origin before any rotations are applied.  Objects rotate about their

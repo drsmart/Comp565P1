@@ -47,7 +47,7 @@ namespace AGXNASK
     /// </summary>
     public class Wall : Model3D
     {
-        public Wall(Stage theStage, string label, string meshFile)
+        public Wall(Stage theStage, string label, string meshFile, int wallBaseX, int wallBaseZ)
             : base(theStage, label, meshFile)
         {
             //Turned off collision for the maze
@@ -55,8 +55,8 @@ namespace AGXNASK
             // "just another brick in the wall", Pink Floyd
             int spacing = stage.Terrain.Spacing;
             Terrain terrain = stage.Terrain;
-            int wallBaseX = 300;
-            int wallBaseZ = 448;
+            //wallBaseX;
+            //wallBaseZ;
             int xPos, zPos;
             // 8 right
             for (int i = 0; i < 7; i++)

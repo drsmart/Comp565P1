@@ -136,11 +136,7 @@ namespace AGXNASK
                     agent.OnDetour = true;
                     agent.AgentObject.Yaw = 0;
                 }
-                else
-                {
-                }
-            }
-            
+            }         
         }
     }
 }

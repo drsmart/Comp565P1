@@ -76,9 +76,10 @@ namespace AGXNASK
             Components.Add(m3d);
 
             // create walls for obstacle avoidance or path finding algorithms
-            Wall wall = new Wall(this, "wall", "Models/100x100x100Brick");
+            Wall wall = new Wall(this, "wall", "Models/100x100x100Brick", 300, 448);
             Components.Add(wall);
-            
+
+
             // create a Pack of dogs
             Pack pack = new Pack(this, "dog", "Models/dogV3", player.Instance.FirstOrDefault());
             Components.Add(pack);

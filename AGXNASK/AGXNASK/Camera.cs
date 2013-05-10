@@ -56,7 +56,7 @@ namespace AGXNASK {
 public class Camera  {
    public enum CameraEnum { TopDownCamera, FirstCamera, FollowCamera, AboveCamera }
    Object3D agent;
-   private int terrainCenter, offset = 300;
+   private int terrainCenter, offset = 1000;
    private Matrix viewMatrix;
    private string name;
    private Stage scene;

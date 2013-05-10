@@ -71,8 +71,6 @@ namespace AGXNASK
         private Boolean positionSaved;
         private Vector3 collisionPosition;
         private float detourDistance;
-        private Boolean realign;
-        private float angleToTarget;
         public Boolean OnDetour
         {
             get { return onDetour; }
@@ -162,9 +160,7 @@ namespace AGXNASK
             if (!treasureHunting)
                 ScanForTreasures();
             // See if at or close to nextGoal, distance measured in the flat XZ plane
-            float distance = Vector3.Distance(
-               new Vector3(nextGoal.Translation.X, 0, nextGoal.Translation.Z),
-               new Vector3(agentObject.Translation.X, 0, agentObject.Translation.Z));
+            float distance = Vector3.Distance(new Vector3(nextGoal.Translation.X, 0, nextGoal.Translation.Z), new Vector3(agentObject.Translation.X, 0, agentObject.Translation.Z));
 
             if (OnDetour)
             {
@@ -300,11 +296,6 @@ namespace AGXNASK
                 nextGoal = nearest.Position;
                 AgentObject.turnToFace(nextGoal.Translation);
             }
-        }
-
-        private void DetectObjects()
-        {
-
         }
     }
 }
