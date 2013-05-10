@@ -64,10 +64,15 @@ namespace AGXNASK
 
         private const double TREASURE_DETECTION_RADIUS = 4000;
         private const double TAG_DISTANCE = 500;
+        private const float MAX_DIST = 300;
 
         private Sensor sensors;
         private Boolean onDetour;
-
+        private Boolean positionSaved;
+        private Vector3 collisionPosition;
+        private float detourDistance;
+        private Boolean realign;
+        private float angleToTarget;
         public Boolean OnDetour
         {
             get { return onDetour; }
@@ -100,7 +105,10 @@ namespace AGXNASK
             nextGoal = path.NextNode;  // get first path goal
             agentObject.turnToFace(nextGoal.Translation);  // orient towards the first path goal
             treasureHunting = false;
-
+            positionSaved = false;
+            realign = false;
+            detourDistance = 0;
+            angleToTarget = 0;
             sensors = new Sensor(stage, "Sensors", "Models/sensor", this);
         }
 
@@ -157,6 +165,30 @@ namespace AGXNASK
             float distance = Vector3.Distance(
                new Vector3(nextGoal.Translation.X, 0, nextGoal.Translation.Z),
                new Vector3(agentObject.Translation.X, 0, agentObject.Translation.Z));
+            
+            if (OnDetour)
+            {
+                if (positionSaved)
+                {
+                    detourDistance = Vector3.Distance(AgentObject.Translation, collisionPosition);
+
+                    if (detourDistance >= MAX_DIST)
+                    {
+                        OnDetour = false;
+                        positionSaved = false;
+                        detourDistance = 0;
+                        collisionPosition = Vector3.Zero;
+                       agentObject.turnSlightly(nextGoal.Translation);
+                       realign = true;
+                    }
+                }
+                else
+                {
+                    collisionPosition = AgentObject.Translation;
+                    positionSaved = true;
+                    detourDistance = 0;
+                }
+            }
 
             if (keyboardState.IsKeyDown(Keys.N) && !oldKeyboardState.IsKeyDown(Keys.N))
             {
@@ -182,7 +214,7 @@ namespace AGXNASK
                 {
                     nextGoal = path.NextNode;
                 }
-                agentObject.turnToFace(nextGoal.Translation);
+                agentObject.turnSlightly(nextGoal.Translation);
                 if (path.Done)
                     stage.setInfo(18, "path traversal is done");
                 else
@@ -266,7 +298,7 @@ namespace AGXNASK
             {
                 previousGoal = nextGoal;
                 nextGoal = nearest.Position;
-                AgentObject.turnToFace(nextGoal.Translation);
+                AgentObject.turnSlightly(nextGoal.Translation);
             }
         }
 

@@ -80,7 +80,7 @@ namespace AGXNASK
             Components.Add(wall);
             
             // create a Pack of dogs
-            Pack pack = new Pack(this, "dog", "Models/dogV3");
+            Pack pack = new Pack(this, "dog", "Models/dogV3", player.Instance.FirstOrDefault());
             Components.Add(pack);
             Random random = new Random();
             for (int x = -9; x < 10; x += 6)

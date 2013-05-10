@@ -51,8 +51,8 @@ namespace AGXNASK
     public class Pack : MovableModel3D
     {
         Object3D leader;
-        Random random = null;
-
+        Random random;
+        Stage currentStage;
         /// <summary>
         /// Construct a leaderless pack.
         /// </summary>
@@ -79,6 +79,8 @@ namespace AGXNASK
         {
             isCollidable = true;
             leader = aLeader;
+            random = new Random();
+            currentStage = theStage;
         }
 
         /// <summary>
@@ -90,19 +92,124 @@ namespace AGXNASK
         {
             // if (leader == null) need to determine "virtual leader from members"
             float angle = 0.3f;
+
             foreach (Object3D obj in instance)
             {
                 obj.Yaw = 0.0f;
                 // change direction 4 time a second  0.07 = 4/60
+
+                float distance = Vector3.Distance(
+                new Vector3(obj.Translation.X, 0, obj.Translation.Z),
+                new Vector3(leader.Translation.X, 0, leader.Translation.Z));
                 if (random.NextDouble() < 0.07)
                 {
-                    if (random.NextDouble() < 0.5) obj.Yaw -= angle; // turn left
-                    else obj.Yaw += angle; // turn right
+                    if (random.NextDouble() > currentStage.FlockingOdds)
+                    {
+
+                        if (random.NextDouble() < 0.5) obj.Yaw -= angle; // turn left
+                        else obj.Yaw += angle; // turn right
+
+                    }
+                    else if (distance >= 1000)
+                    {
+                        Vector3 axis, toTarget, toObj, target = leader.Translation;
+                        double radian, aCosDot;
+                        // put both vector on the XZ plane of Y == 0
+                        toObj = new Vector3(obj.Translation.X, 0, obj.Translation.Z);
+                        target = new Vector3(target.X, 0, target.Z);
+                        toTarget = toObj - target; // new
+                        // normalize
+                        toObj.Normalize();
+                        toTarget.Normalize();
+                        // make sure vectors are not co-linear by a little nudge in X and Z
+                        if (toTarget == toObj || Vector3.Negate(toTarget) == toObj)
+                        {
+                            toTarget.X += 0.05f;
+                            toTarget.Z += 0.05f;
+                            toTarget.Normalize();
+                        }
+                        // determine axis for rotation
+                        axis = Vector3.Cross(toTarget, obj.Orientation.Backward);   // order of arguments mater
+                        axis.Normalize();
+                        // get cosine of rotation
+                        aCosDot = Math.Acos(Vector3.Dot(toTarget, obj.Orientation.Backward));  //Backward
+                        // test and adjust direction of rotation into radians
+                        if (aCosDot == 0) radian = Math.PI * 2;
+                        else if (aCosDot == Math.PI) radian = Math.PI;
+                        else if (axis.X + axis.Y + axis.Z >= 0) radian = (float)(2 * Math.PI - aCosDot);
+                        else radian = -aCosDot;
+                        if (radian < 0 && radian < (-1 * angle))
+                            obj.Yaw += angle;
+                        else if (radian > 0 && radian > angle)
+                            obj.Yaw -= angle;
+                        else obj.turnToFace(leader.Translation);
+                    }
+                    else if (distance < 1000)
+                    {
+                        GiveMeSpace(obj);
+                    }
                 }
                 obj.updateMovableObject();
                 stage.setSurfaceHeight(obj);
             }
-            base.Update(gameTime);  // MovableMesh's Update(); 
+            base.Update(gameTime);  // MovableMesh's Update();
+        }
+
+        /// <summary>
+        /// This is for making sure that if the dogs get too close they turn away
+        /// and ultimately try to orient themselves in the direction of the player
+        /// </summary>
+
+        public void GiveMeSpace(Object3D obj)
+        {
+            float distance = Vector3.Distance(
+                new Vector3(obj.Translation.X, 0, obj.Translation.Z),
+                new Vector3(leader.Translation.X, 0, leader.Translation.Z));
+            if (distance < 1000 && distance > 500)
+            {
+                float angle = Vector3.Dot(obj.Orientation.Left, leader.Orientation.Forward);
+                if (angle < 0)
+                {
+                    obj.Yaw += 0.3f;
+                }
+                else if (angle > 0)
+                {
+                    obj.Yaw -= 0.3f;
+                }
+            }
+            else if (distance < 500)
+            {
+                Vector3 axis, toTarget, toObj, target = leader.Translation;
+                double radian, aCosDot;
+                // put both vector on the XZ plane of Y == 0
+                toObj = new Vector3(obj.Translation.X, 0, obj.Translation.Z);
+                target = new Vector3(target.X, 0, target.Z);
+                toTarget = toObj - target; // new
+                // normalize
+                toObj.Normalize();
+                toTarget.Normalize();
+                // make sure vectors are not co-linear by a little nudge in X and Z
+                if (toTarget == toObj || Vector3.Negate(toTarget) == toObj)
+                {
+                    toTarget.X += 0.05f;
+                    toTarget.Z += 0.05f;
+                    toTarget.Normalize();
+                }
+                // determine axis for rotation
+                axis = Vector3.Cross(toTarget, obj.Orientation.Backward);   // order of arguments mater
+                axis.Normalize();
+                // get cosine of rotation
+                aCosDot = Math.Acos(Vector3.Dot(toTarget, obj.Orientation.Backward));  //Backward
+                // test and adjust direction of rotation into radians
+                if (aCosDot == 0) radian = Math.PI * 2;
+                else if (aCosDot == Math.PI) radian = Math.PI;
+                else if (axis.X + axis.Y + axis.Z >= 0) radian = (float)(2 * Math.PI - aCosDot);
+                else radian = -aCosDot;
+                if (radian < 0)
+                    obj.Yaw -= 0.3f;
+                else
+                    obj.Yaw += 0.3f;
+            }
         }
 
 

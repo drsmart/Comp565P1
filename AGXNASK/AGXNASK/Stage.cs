@@ -120,6 +120,10 @@ namespace AGXNASK
         //List of treasures on the map
         protected List<Treasure> treasures = new List<Treasure>();
 
+        protected float flockingOdds = 0.0f; //ODDS OF FLOCKING
+        protected int switchFlock = 0; //FLOCKING STAGE
+
+
         public Stage() : base()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -136,6 +140,12 @@ namespace AGXNASK
         }
 
         // Properties
+
+        public float FlockingOdds
+        {
+            get { return flockingOdds; }
+            set { flockingOdds = value; }
+        }
 
         public Vector3 AmbientLight
         {
@@ -498,6 +508,7 @@ namespace AGXNASK
         {
             // set info pane values
             fpsSecond += gameTime.ElapsedGameTime.TotalSeconds;
+            inspector.setInfo(4, "Toggles:  'B' bounding spheres, 'C' cameras, 'F' fog, 'T' updates, 'Y' yon, 'P' Flock: " + FlockingOdds);
             updates++;
             TimeSpan ts = gameTime.TotalGameTime;
             if (fpsSecond >= 1.0)
@@ -574,6 +585,10 @@ namespace AGXNASK
                 {
                     YonFlag = !YonFlag;  // toggle Yon clipping value.
                 }
+                else if (keyboardState.IsKeyDown(Keys.P) && !oldKeyboardState.IsKeyDown(Keys.P))
+                {
+                    ChangeFlockingOdds();
+                }
                 oldKeyboardState = keyboardState;    // Update saved state.
             }
             base.Update(gameTime);  // update all GameComponents and DrawableGameComponents
@@ -611,5 +626,20 @@ namespace AGXNASK
             display.RasterizerState = RasterizerState.CullNone;
             base.Draw(gameTime);
         }
+
+        public void ChangeFlockingOdds()
+        {
+            switch (switchFlock)
+            {
+                case 0: FlockingOdds = 0.33f; break;
+                case 1: FlockingOdds = 0.66f; break;
+                case 2: FlockingOdds = 0.99f; break;
+                case 3: FlockingOdds = 0.0f; break;
+            }
+            switchFlock++;
+            if (switchFlock == 4)
+                switchFlock = 0;
+        }
+ 
     }
 }

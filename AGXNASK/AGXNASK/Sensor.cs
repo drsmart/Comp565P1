@@ -8,24 +8,30 @@ namespace AGXNASK
 {
     class Sensor : MovableModel3D
     {
-        Object3D leftSensor;
+        Object3D frontLeftSensor;
+        Object3D frontRightSensor;
         Object3D rightSensor;
-        private static Matrix LEFT_TRANSLATION =  Matrix.CreateTranslation(new Vector3(-100, 0, -200));
-        private static Matrix RIGHT_TRANSLATION = Matrix.CreateTranslation(new Vector3(100, 0, -200));
-        
-        private Boolean rightWall;
-        private Boolean leftWall;
+        Object3D leftSensor;
+        private static Matrix FRONT_LEFT_TRANSLATION = Matrix.CreateTranslation(new Vector3(-100, 0, -150));
+        private static Matrix FRONT_RIGHT_TRANSLATION = Matrix.CreateTranslation(new Vector3(100, 0, -150));
+        private static Matrix LEFT_TRANSLATION = Matrix.CreateTranslation(new Vector3(-150, 0, -50));
+        private static Matrix RIGHT_TRANSLATION = Matrix.CreateTranslation(new Vector3(150, 0, -50));
+
+        private Boolean rightFront;
+        private Boolean leftFront;
+        private Boolean right;
+        private Boolean left;
 
         public Boolean RightWall
         {
-            get { return rightWall; }
-            set { rightWall = value; }
+            get { return rightFront; }
+            set { rightFront = value; }
         }
 
         public Boolean LeftWall
         {
-            get { return leftWall; }
-            set { leftWall = value; }
+            get { return leftFront; }
+            set { leftFront = value; }
         }
 
         NPAgent agent;
@@ -35,10 +41,13 @@ namespace AGXNASK
         {
             this.agent = agent;
             isCollidable = false;
-            addObject(agent.AgentObject.Translation, Vector3.UnitY, 0);
-            addObject(agent.AgentObject.Translation, Vector3.UnitY, 0);
-            leftSensor = instance.ElementAt<Object3D>(0);
-            rightSensor = instance.ElementAt<Object3D>(1);
+            for (int i = 0; i < 4; i++)
+                addObject(agent.AgentObject.Translation, Vector3.UnitY, 0);
+
+            frontLeftSensor = instance.ElementAt<Object3D>(0);
+            frontRightSensor = instance.ElementAt<Object3D>(1);
+            rightSensor = instance.ElementAt<Object3D>(2);
+            leftSensor = instance.ElementAt<Object3D>(3);
 
             RightWall = false;
             LeftWall = false;
@@ -56,33 +65,65 @@ namespace AGXNASK
 
         public override void Update(GameTime gameTime)
         {
+            frontLeftSensor.Orientation = FRONT_LEFT_TRANSLATION;
+            frontLeftSensor.Orientation *= agent.AgentObject.Orientation;
+            frontRightSensor.Orientation = FRONT_RIGHT_TRANSLATION;
+            frontRightSensor.Orientation *= agent.AgentObject.Orientation;
             leftSensor.Orientation = LEFT_TRANSLATION;
             leftSensor.Orientation *= agent.AgentObject.Orientation;
             rightSensor.Orientation = RIGHT_TRANSLATION;
             rightSensor.Orientation *= agent.AgentObject.Orientation;
+
             CheckCollision();
             base.Update(gameTime);
         }
 
         public void CheckCollision()
         {
-            LeftWall = leftSensor.collision(leftSensor.Translation);
-            RightWall = rightSensor.collision(rightSensor.Translation);
+            leftFront = frontLeftSensor.collision(frontLeftSensor.Translation);
+            rightFront = frontRightSensor.collision(frontRightSensor.Translation);
+            left = leftSensor.collision(leftSensor.Translation);
+            right = rightSensor.collision(rightSensor.Translation);
 
-            if (RightWall && LeftWall)
+
+            if (rightFront && leftFront)
             {
-                agent.AgentObject.Yaw = (float)Math.PI / 4;
+                if (left && right)
+                    agent.AgentObject.Yaw = (float)Math.PI / 4;
+                else if (left)
+                    agent.AgentObject.Yaw = -(float)Math.PI / 50;
+                else if (right)
+                    agent.AgentObject.Yaw = (float)Math.PI / 50;
+                else
+                    agent.AgentObject.Yaw = -(float)Math.PI / 50;
             }
-            if (RightWall)
+            else if (right && rightFront)
             {
-                agent.AgentObject.Yaw = (float)Math.PI / 100;
+                agent.AgentObject.Yaw = (float)Math.PI / 50;
             }
-            else if (LeftWall)
+            else if (rightFront)
+            {
+                agent.AgentObject.Yaw = (float)Math.PI / 50;
+            }
+            else if (left && leftFront)
+            {
+                agent.AgentObject.Yaw = -(float)Math.PI / 50;
+            }
+            else if (leftFront)
+            {
+                agent.AgentObject.Yaw = -(float)Math.PI / 50;
+            }
+            else if (left)
             {
                 agent.AgentObject.Yaw = -(float)Math.PI / 100;
             }
+            else if (right)
+            {
+                agent.AgentObject.Yaw = (float)Math.PI / 100;
+            }
             else
             {
+                agent.OnDetour = true;
                 agent.AgentObject.Yaw = 0;
             }
             
