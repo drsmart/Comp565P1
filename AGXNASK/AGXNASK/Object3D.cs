@@ -28,10 +28,12 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 
-/* Sam Huffman
+/* Ian Graham
+ * Sam Huffman
  * Devon Smart
  * Comp 565
- * AGNXNASK 1
+ * AGNXNASK 2
+ * ian.graham.534@my.csun.edu
  * sam.huffman.11@my.csun.edu
  * devon.smart.962@my.csun.edu
  */
@@ -302,7 +304,7 @@ namespace AGXNASK
             }
         }
 
-        public void turnSlightly(Vector3 target)
+        public bool turnSlightly(Vector3 target)
         {
             Vector3 axis, toTarget, toObj;
             double radian, aCosDot;
@@ -334,22 +336,32 @@ namespace AGXNASK
             if (Double.IsNaN(radian))
             {
                 stage.setInfo(19, "radian NaN");
-                return;
+                return false;
             }
             else
             {
+                bool t = false;
                 float angle = (float)Math.PI / 5;
 
                 if (aCosDot < 0.005)
-                { }
+                {
+                }
                 else if (radian < 0 && radian % MathHelper.TwoPi < (-1 * angle))
+                {
                     Yaw += angle;
+                    t = true;
+                }
                 else if (radian > 0 && radian % MathHelper.TwoPi > angle)
+                {
                     Yaw -= angle;
+                    t = true;
+                }
                 else
-                    turnToFace(target);
+                     turnToFace(target);
+
 
                 updateMovableObject();
+                return t;
             }
         }
         public void rotate(float radian)

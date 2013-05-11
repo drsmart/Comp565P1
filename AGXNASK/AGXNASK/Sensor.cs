@@ -1,4 +1,14 @@
-﻿using System;
+﻿/* Ian Graham 
+ * Sam Huffman
+ * Devon Smart
+ * Comp 565
+ * AGNXNASK 2
+ * ian.graham.534@my.csun.edu
+ * sam.huffman.11@my.csun.edu
+ * devon.smart.962@my.csun.edu
+ */
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -49,6 +59,7 @@ namespace AGXNASK
         {
             this.agent = agent;
             isCollidable = false;
+            //Create sensors
             for (int i = 0; i < 4; i++)
                 addObject(agent.AgentObject.Translation, Vector3.UnitY, 0);
 
@@ -61,6 +72,7 @@ namespace AGXNASK
             LeftWall = false;
             HaveCollided = false;
             isCollidable = true;
+
         }
 
         public void UpdatePosition(Vector3 position)
@@ -73,6 +85,7 @@ namespace AGXNASK
 
         public override void Update(GameTime gameTime)
         {
+            //Update the location of all sensors
             frontLeftSensor.Orientation = FRONT_LEFT_TRANSLATION;
             frontLeftSensor.Orientation *= agent.AgentObject.Orientation;
             frontRightSensor.Orientation = FRONT_RIGHT_TRANSLATION;
@@ -86,6 +99,7 @@ namespace AGXNASK
             base.Update(gameTime);
         }
 
+        //Checks for sensor collision
         public void CheckCollision()
         {
             leftFront = frontLeftSensor.collision(frontLeftSensor.Translation);
@@ -94,6 +108,7 @@ namespace AGXNASK
             right = rightSensor.collision(rightSensor.Translation);
             HaveCollided = (left || right || leftFront || rightFront || HaveCollided) ? true: false;
            
+            //Object directly ahead
             if (rightFront && leftFront)
             {
                 if (left && right)
@@ -103,8 +118,11 @@ namespace AGXNASK
                 else if (right)
                     agent.AgentObject.Yaw = (float)Math.PI / 50;
                 else
+                {
                     agent.AgentObject.Yaw = -(float)Math.PI / 50;
+                }
             }
+            //Object to the right
             else if (right && rightFront)
             {
                 agent.AgentObject.Yaw = (float)Math.PI / 50;
@@ -113,6 +131,7 @@ namespace AGXNASK
             {
                 agent.AgentObject.Yaw = (float)Math.PI / 50;
             }
+            //Object to the left
             else if (left && leftFront)
             {
                 agent.AgentObject.Yaw = -(float)Math.PI / 50;
@@ -121,10 +140,12 @@ namespace AGXNASK
             {
                 agent.AgentObject.Yaw = -(float)Math.PI / 50;
             }
+            //Object to the left
             else if (left)
             {
                 agent.AgentObject.Yaw = -(float)Math.PI / 100;
             }
+            //Object to the right
             else if (right)
             {
                 agent.AgentObject.Yaw = (float)Math.PI / 100;

@@ -17,10 +17,12 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-/* Sam Huffman
+/* Ian Graham
+ * Sam Huffman
  * Devon Smart
  * Comp 565
  * AGNXNASK 2
+ * ian.graham.534@my.csun.edu
  * sam.huffman.11@my.csun.edu
  * devon.smart.962@my.csun.edu
  */

@@ -17,10 +17,12 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-/* Sam Huffman
+/* Ian Graham
+ * Sam Huffman
  * Devon Smart
  * Comp 565
- * AGNXNASK 1
+ * AGNXNASK 2
+ * ian.graham.534@my.csun.edu
  * sam.huffman.11@my.csun.edu
  * devon.smart.962@my.csun.edu
  */
@@ -56,7 +58,7 @@ namespace AGXNASK {
 public class Camera  {
    public enum CameraEnum { TopDownCamera, FirstCamera, FollowCamera, AboveCamera }
    Object3D agent;
-   private int terrainCenter, offset = 1000;
+   private int terrainCenter, offset = 300;
    private Matrix viewMatrix;
    private string name;
    private Stage scene;

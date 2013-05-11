@@ -17,10 +17,11 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-/* Sam Huffman
+/* Ian Graham Sam Huffman
  * Devon Smart
  * Comp 565
- * AGNXNASK 1
+ * AGNXNASK 2
+ * ian.graham.534@my.csun.edu
  * sam.huffman.11@my.csun.edu
  * devon.smart.962@my.csun.edu
  */
@@ -98,15 +99,13 @@ namespace AGXNASK
             IsCollidable = true;  // have NPAgent test collisions
 
             // path is built to work on specific terrain
-            path = new Path(stage, makePath(), Path.PathType.SINGLE); // continuous search path
+            path = new Path(stage, makePath(), Path.PathType.REVERSE); // continuous search path
             stage.Components.Add(path);
             nextGoal = path.NextNode;  // get first path goal
             agentObject.turnToFace(nextGoal.Translation);  // orient towards the first path goal
             treasureHunting = false;
             positionSaved = false;
-            realign = false;
             detourDistance = 0;
-            angleToTarget = 0;
             sensors = new Sensor(stage, "Sensors", "Models/sensor", this);
         }
 
@@ -132,13 +131,17 @@ namespace AGXNASK
             n.Navigatable = NavNode.NavNodeEnum.VERTEX;
             aPath.Add(n);
 
-            aPath.Add(new NavNode(new Vector3(334 * spacing, stage.Terrain.surfaceHeight(334, 369), 369 * spacing),
+            aPath.Add(new NavNode(new Vector3(334 * spacing, stage.Terrain.surfaceHeight(334*spacing, 369*spacing), 369 * spacing),
                      NavNode.NavNodeEnum.WAYPOINT));
 
 
 
             aPath.Add(new NavNode(new Vector3(390 * spacing, stage.Terrain.surfaceHeight(390, 470), 470 * spacing),
                      NavNode.NavNodeEnum.WAYPOINT));
+            Random rand = new Random();
+
+            //if (rand.Next(2) == 1)
+            //    aPath.Reverse();
 
             return (aPath);
         }
@@ -175,7 +178,6 @@ namespace AGXNASK
                         detourDistance = 0;
                         collisionPosition = Vector3.Zero;
                         agentObject.turnSlightly(nextGoal.Translation);
-                        realign = true;
                     }
                 }
                 else

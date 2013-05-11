@@ -1,7 +1,9 @@
-﻿/* Sam Huffman
+﻿/* Ian Graham 
+ * Sam Huffman
  * Devon Smart
  * Comp 565
- * AGNXNASK 1
+ * AGNXNASK 2
+ * ian.graham.534@my.csun.edu
  * sam.huffman.11@my.csun.edu
  * devon.smart.962@my.csun.edu
  */

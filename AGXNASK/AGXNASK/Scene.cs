@@ -17,10 +17,12 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-/* Sam Huffman
+/* Ian Graham
+ * Sam Huffman
  * Devon Smart
  * Comp 565
- * AGNXNASK 1
+ * AGNXNASK 2
+ * ian.graham.534@my.csun.edu
  * sam.huffman.11@my.csun.edu
  * devon.smart.962@my.csun.edu
  */
@@ -71,14 +73,16 @@ namespace AGXNASK
 
             // create a castle
             Model3D m3d = new Model3D(this, "castle", "Models/castle");
-            m3d.IsCollidable = false;
-            m3d.addObject(new Vector3(430 * spacing, terrain.surfaceHeight(430, 300), 300 * spacing), new Vector3(0, 1, 0), 0.0f);
+            m3d.IsCollidable = true;
+            m3d.addObject(new Vector3(400 * spacing, terrain.surfaceHeight(400 * spacing, 300 * spacing), 300 * spacing), new Vector3(0, 1, 0), 0.0f);
             Components.Add(m3d);
 
             // create walls for obstacle avoidance or path finding algorithms
             Wall wall = new Wall(this, "wall", "Models/100x100x100Brick", 300, 448);
             Components.Add(wall);
 
+            //Wall wall2 = new Wall(this, "wall", "Models/100x100x100Brick", 300, 465);
+            //Components.Add(wall2);
 
             // create a Pack of dogs
             Pack pack = new Pack(this, "dog", "Models/dogV3", player.Instance.FirstOrDefault());
@@ -91,7 +95,7 @@ namespace AGXNASK
                     float xPos = (384 + x) * spacing;
                     float zPos = (384 + z) * spacing;
                     pack.addObject(
-                       new Vector3(xPos, terrain.surfaceHeight((int)xPos / spacing, (int)zPos / spacing), zPos),
+                       new Vector3(xPos, terrain.surfaceHeight(xPos, zPos), zPos),
                        new Vector3(0, 1, 0), 0.0f,
                        new Vector3(scale, scale, scale));
                 }
@@ -102,7 +106,7 @@ namespace AGXNASK
             for (int x = range / 4; x < range; x += (range / 4))
                 for (int z = range / 4; z < range; z += (range / 4))
                     cloud.addObject(
-                       new Vector3(x * spacing, terrain.surfaceHeight(x, z) + 7000, z * spacing),
+                       new Vector3(x * spacing, terrain.surfaceHeight(x * spacing, z * spacing) + 7000, z * spacing),
                        new Vector3(0, 1, 0), 0.0f,
                        new Vector3(random.Next(3) + 1, random.Next(3) + 1, random.Next(3) + 1));
             // Set initial camera and projection matrix
