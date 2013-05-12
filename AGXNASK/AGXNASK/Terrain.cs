@@ -175,6 +175,8 @@ namespace AGXNASK
                 height += (triZ2 - triZ3) * (1.0f - sqX);
             }
 
+
+
             return height;
         }
 

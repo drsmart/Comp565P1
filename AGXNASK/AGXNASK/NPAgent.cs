@@ -99,7 +99,7 @@ namespace AGXNASK
             IsCollidable = true;  // have NPAgent test collisions
 
             // path is built to work on specific terrain
-            path = new Path(stage, makePath(), Path.PathType.REVERSE); // continuous search path
+            path = new Path(stage, makePath(), Path.PathType.SINGLE); // continuous search path
             stage.Components.Add(path);
             nextGoal = path.NextNode;  // get first path goal
             agentObject.turnToFace(nextGoal.Translation);  // orient towards the first path goal
@@ -140,8 +140,8 @@ namespace AGXNASK
                      NavNode.NavNodeEnum.WAYPOINT));
             Random rand = new Random();
 
-            //if (rand.Next(2) == 1)
-            //    aPath.Reverse();
+            if (rand.Next(2) == 1)
+                aPath.Reverse();
 
             return (aPath);
         }
